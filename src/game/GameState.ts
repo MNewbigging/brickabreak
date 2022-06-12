@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
-import minecraft from '/assets/minecraft.png';
+
+import { Ball } from './Ball';
 
 export class GameState {
   private app: PIXI.Application;
@@ -9,17 +10,14 @@ export class GameState {
     const gameStage = document.getElementById('game-stage');
 
     // Create the pixi app; creates the canvas and update loop
-    this.app = new PIXI.Application({ resizeTo: gameStage });
+    this.app = new PIXI.Application({ resizeTo: gameStage, backgroundColor: 0xffffff });
 
     // Add the app's canvas to the dom
     gameStage.appendChild(this.app.view);
 
     // TESTING
-    const sprite = PIXI.Sprite.from(minecraft);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.position.x = this.app.renderer.width / 2;
-    sprite.y = this.app.renderer.height / 2;
-    sprite.scale.set(10, 10);
-    this.app.stage.addChild(sprite);
+    const ball = new Ball(10);
+    ball.setPosition(this.app.renderer.width / 2, this.app.renderer.height / 2);
+    this.app.stage.addChild(ball.sprite);
   }
 }
