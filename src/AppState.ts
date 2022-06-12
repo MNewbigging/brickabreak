@@ -1,32 +1,10 @@
-import * as PIXI from 'pixi.js';
-import minecraft from '/assets/minecraft.png';
+import { GameState } from './game/GameState';
 
 export class AppState {
-  private app: PIXI.Application;
+  public gameState: GameState;
 
   public start() {
-    // Get the game stage
-    const gameStage = document.getElementById('game-stage');
-
-    // Create the pixi app; creates the canvas and update loop
-    this.app = new PIXI.Application({ resizeTo: gameStage });
-
-    // Add the app's canvas to the dom
-    gameStage.appendChild(this.app.view);
-
-    // Load in example image
-    const sprite = PIXI.Sprite.from(minecraft);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.position.x = this.app.renderer.width / 2;
-    sprite.y = this.app.renderer.height / 2;
-    sprite.scale.set(10, 10);
-    this.app.stage.addChild(sprite);
-
-    // Make the sprite spin
-    this.app.ticker.add((dt) => this.spin(dt, sprite));
+    this.gameState = new GameState();
+    this.gameState.setup();
   }
-
-  private spin = (dt: number, sprite: PIXI.Sprite) => {
-    sprite.rotation += 0.01 * dt;
-  };
 }
