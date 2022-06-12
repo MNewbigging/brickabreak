@@ -1,8 +1,8 @@
 {
-  "homepage": "https://your-user-name.github.io/your-repo-name",
-  "name": "base-template",
+  "homepage": "https://mnewbigging.github.io/brickabreak",
+  "name": "brickabreak",
   "version": "1.0.0",
-  "description": "base project template",
+  "description": "Breakout clone",
   "proxy": "http://localhost:8080",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
+    "pixi.js": "^6.4.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "sass": "^1.51.0",
