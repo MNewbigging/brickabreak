@@ -4,6 +4,7 @@ import { Ball } from './Ball';
 
 export class GameState {
   private app: PIXI.Application;
+  private ball: Ball;
 
   public setup() {
     // Get the game stage
@@ -19,5 +20,16 @@ export class GameState {
     const ball = new Ball(10);
     ball.setPosition(this.app.renderer.width / 2, this.app.renderer.height / 2);
     this.app.stage.addChild(ball.sprite);
+    this.ball = ball;
+
+    this.app.ticker.add(this.update);
   }
+
+  public update = (dt: number) => {
+    // Update ball
+    this.ball.update(dt);
+
+    // Check collisions with bounds
+    this.ball.checkCollisions(this.app.renderer.width, this.app.renderer.height);
+  };
 }
