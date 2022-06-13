@@ -11,7 +11,11 @@ export class GameState {
     const gameStage = document.getElementById('game-stage');
 
     // Create the pixi app; creates the canvas and update loop
-    this.app = new PIXI.Application({ resizeTo: gameStage, backgroundColor: 0xffffff });
+    this.app = new PIXI.Application({
+      resizeTo: gameStage,
+      backgroundColor: 0xffffff,
+      autoStart: false,
+    });
 
     // Add the app's canvas to the dom
     gameStage.appendChild(this.app.view);
@@ -23,6 +27,10 @@ export class GameState {
     this.ball = ball;
 
     this.app.ticker.add(this.update);
+  }
+
+  public start() {
+    this.app.start();
   }
 
   public update = (dt: number) => {

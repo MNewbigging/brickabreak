@@ -7,8 +7,7 @@ import { App } from './App';
 import { AppState } from './AppState';
 
 const appState = new AppState();
-appState.start();
 
-// const root = createRoot(document.getElementById('app-root'));
+const root = createRoot(document.getElementById('app-root'));
 
-// root.render(<App appState={appState} />);
+root.render(<App appState={appState} />);
