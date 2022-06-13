@@ -12,10 +12,10 @@ export class CollisionManager {
     // Horizontal
     if (paddle.x + paddle.halfWidth > this.maxWidth) {
       // Over right edge, move back inside bounds
-      paddle.setPositionX(this.maxWidth - paddle.halfWidth);
+      paddle.x = this.maxWidth - paddle.halfWidth;
     } else if (paddle.x - paddle.halfWidth < 0) {
       // Over left edge, move back inside bounds
-      paddle.setPositionX(paddle.halfWidth);
+      paddle.x = paddle.halfWidth;
     }
   }
 }

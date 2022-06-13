@@ -1,50 +1,25 @@
 import * as PIXI from 'pixi.js';
 import blueboard from '/assets/blueboard.png';
 
+import { Entity } from './Entity';
 import { KeyboardListener } from '../listeners/KeyboardListener';
 
-export class Paddle {
-  public sprite: PIXI.Sprite;
+export class Paddle extends Entity {
   public speed = 3;
   public halfWidth = 0;
 
-  private rect: PIXI.Rectangle;
-
   constructor(private keyboardListener: KeyboardListener) {
+    super();
+
     // Create the sprite for the board
     this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[blueboard].texture);
     this.sprite.anchor.set(0.5, 0.5);
 
     // Create the rectangle shape for the bounds
-    this.rect = new PIXI.Rectangle(0, 0, 175, 25);
+    this.bounds = new PIXI.Rectangle(0, 0, 175, 25);
 
     // Set size props
-    this.halfWidth = this.rect.width / 2;
-  }
-
-  public get x() {
-    return this.sprite.x;
-  }
-
-  public get y() {
-    return this.sprite.y;
-  }
-
-  public setPosition(x: number, y: number) {
-    this.sprite.x = x;
-    this.sprite.y = y;
-    this.rect.x = x;
-    this.rect.y = y;
-  }
-
-  public setPositionX(x: number) {
-    this.sprite.x = x;
-    this.rect.x = x;
-  }
-
-  public setPositionY(y: number) {
-    this.sprite.y = y;
-    this.rect.y = y;
+    this.halfWidth = this.bounds.width / 2;
   }
 
   public update(dt: number) {
@@ -54,15 +29,12 @@ export class Paddle {
 
   private moveBoard(dt: number) {
     // Left
-
     if (this.keyboardListener.anyKeysPressed(['a', 'arrowleft'])) {
-      const x = this.x - dt * this.speed;
-      this.setPositionX(x);
+      this.x = this.x - dt * this.speed;
     }
     // Right
     if (this.keyboardListener.anyKeysPressed(['d', 'arrowright'])) {
-      const x = this.x + dt * this.speed;
-      this.setPositionX(x);
+      this.x = this.x + dt * this.speed;
     }
   }
 }
