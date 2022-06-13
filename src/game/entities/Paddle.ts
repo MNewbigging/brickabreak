@@ -2,13 +2,17 @@ import * as PIXI from 'pixi.js';
 import blueboard from '/assets/blueboard.png';
 import darkEnergyBall from '/assets/darkEnergyBall.png';
 
-import { Entity } from './Entity';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { KeyboardListener } from '../listeners/KeyboardListener';
+import { RectangleEntity } from './Entity';
+import { Vec2 } from '../utils/Vec2';
 
-export class Paddle extends Entity {
+export class Paddle extends RectangleEntity {
   public speed = 3;
+  public width = 0;
   public halfWidth = 0;
+  public height = 0;
+  public halfHeight = 0;
 
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
@@ -25,10 +29,13 @@ export class Paddle extends Entity {
     this.sprite.anchor.set(0.5, 0.5);
 
     // Create the rectangle shape for the bounds
-    this.bounds = new PIXI.Rectangle(0, 0, 175, 25);
+    this.bounds = new PIXI.Rectangle(0, 0, 175, 1);
 
     // Set size props
-    this.halfWidth = this.bounds.width / 2;
+    this.width = this.bounds.width;
+    this.halfWidth = this.width / 2;
+    this.height = this.bounds.height;
+    this.halfHeight = this.height / 2;
 
     // Controls
     keyboardListener.on('r', this.rackNewBall);
@@ -43,11 +50,13 @@ export class Paddle extends Entity {
   private moveBoard(dt: number) {
     // Left
     if (this.keyboardListener.anyKeysPressed(['a', 'arrowleft'])) {
-      this.x = this.x - dt * this.speed;
+      const x = this.position.x - dt * this.speed;
+      this.setX(x);
     }
     // Right
     if (this.keyboardListener.anyKeysPressed(['d', 'arrowright'])) {
-      this.x = this.x + dt * this.speed;
+      const x = this.position.x + dt * this.speed;
+      this.setX(x);
     }
   }
 
@@ -58,13 +67,13 @@ export class Paddle extends Entity {
   private positionRackBall(rb: PIXI.Sprite, position: number) {
     switch (position) {
       case 0:
-        rb.x = this.x;
+        rb.x = this.position.x;
         break;
       case 1:
-        rb.x = this.x + 50;
+        rb.x = this.position.x + 50;
         break;
       case 2:
-        rb.x = this.x - 50;
+        rb.x = this.position.x - 50;
         break;
     }
   }
@@ -95,7 +104,7 @@ export class Paddle extends Entity {
     const rackBall = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
     rackBall.anchor.set(0.5, 0.5);
     rackBall.scale.set(0.035, 0.035);
-    rackBall.y = this.y - 25;
+    rackBall.y = this.position.y - 25;
 
     this.positionRackBall(rackBall, position);
 
@@ -109,7 +118,10 @@ export class Paddle extends Entity {
 
     // Fire the racked balls
     this.rackedBalls.forEach((rb) =>
-      this.eventListener.fireEvent({ type: GameEventType.FIRE_BALL, position: rb.position })
+      this.eventListener.fireEvent({
+        type: GameEventType.FIRE_BALL,
+        position: new Vec2(rb.position.x, rb.position.y),
+      })
     );
 
     // Clear racked balls

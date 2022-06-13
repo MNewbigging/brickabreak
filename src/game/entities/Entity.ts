@@ -6,37 +6,59 @@ import { Vec2 } from '../utils/Vec2';
 export abstract class Entity {
   public id = RandomUtils.createId();
   public sprite: PIXI.Sprite;
-  public bounds: PIXI.Circle | PIXI.Rectangle;
+  // public bounds: PIXI.Circle | PIXI.Rectangle;
+  public position = new Vec2();
 
-  public get x() {
-    return this.sprite.x;
-  }
-
-  public set x(x: number) {
+  public setX(x: number) {
     this.sprite.x = x;
-    this.bounds.x = x;
+    this.position.x = x;
   }
 
-  public get y() {
-    return this.sprite.y;
-  }
-
-  public set y(y: number) {
+  public setY(y: number) {
     this.sprite.y = y;
-    this.bounds.y = y;
+    this.position.y = y;
   }
 
   public setPosition(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this.setX(x);
+    this.setY(y);
   }
 }
 
-export abstract class UpdateEntity extends Entity {
-  public abstract update(dt: number): void;
+export abstract class RectangleEntity extends Entity {
+  bounds: PIXI.Rectangle;
+
+  public setX(x: number) {
+    super.setX(x);
+
+    this.bounds.x = x;
+  }
+
+  public setY(y: number) {
+    super.setY(y);
+
+    this.bounds.y = y;
+  }
 }
 
-export abstract class PhysicsEntity extends UpdateEntity {
-  public speed = 1;
-  public velocity = new Vec2();
+export abstract class CircleEntity extends Entity {
+  bounds: PIXI.Circle;
+
+  public setX(x: number) {
+    super.setX(x);
+
+    this.bounds.x = x;
+  }
+
+  public setY(y: number) {
+    super.setY(y);
+
+    this.bounds.y = y;
+  }
+}
+
+export interface IPhysicsEntity {
+  update: (dt: number) => void;
+  speed: number;
+  velocity: Vec2;
 }
