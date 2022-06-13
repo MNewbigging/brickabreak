@@ -3,6 +3,7 @@ import blueboard from '/assets/blueboard.png';
 import darkEnergyBall from '/assets/darkEnergyBall.png';
 
 import { Entity } from './Entity';
+import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { KeyboardListener } from '../listeners/KeyboardListener';
 
 export class Paddle extends Entity {
@@ -12,7 +13,11 @@ export class Paddle extends Entity {
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
 
-  constructor(private keyboardListener: KeyboardListener, private app: PIXI.Application) {
+  constructor(
+    private app: PIXI.Application,
+    private keyboardListener: KeyboardListener,
+    private eventListener: GameEventListener
+  ) {
     super();
 
     // Create the sprite for the board
@@ -31,8 +36,8 @@ export class Paddle extends Entity {
   }
 
   public update(dt: number) {
-    // Controls
     this.moveBoard(dt);
+    this.moveRackedBalls();
   }
 
   private moveBoard(dt: number) {
@@ -46,27 +51,45 @@ export class Paddle extends Entity {
     }
   }
 
+  private moveRackedBalls() {
+    this.rackedBalls.forEach((rb: PIXI.Sprite, idx: number) => this.positionRackBall(rb, idx));
+  }
+
+  private positionRackBall(rb: PIXI.Sprite, position: number) {
+    switch (position) {
+      case 0:
+        rb.x = this.x;
+        break;
+      case 1:
+        rb.x = this.x + 50;
+        break;
+      case 2:
+        rb.x = this.x - 50;
+        break;
+    }
+  }
+
   private rackNewBall = () => {
     // Racks up to maxRackSize new balls to be fired. Resets to 0 after max racked.
     if (this.rackedBalls.length < this.maxRackSize) {
       // Create a new rack ball
       const rackBall = this.createRackBall(this.rackedBalls.length);
 
-      // Racked balls are centred above paddle
-
       // Add the ball to rack and stage it
       this.rackedBalls.push(rackBall);
-      this.sprite.addChild(rackBall);
       this.app.stage.addChild(rackBall);
     } else {
-      // Clear the rack
-      this.rackedBalls.forEach((rb) => {
-        this.sprite.removeChild(rb);
-        this.app.stage.removeChild(rb);
-      });
-      this.rackedBalls = [];
+      // Clear the rack and unstage
+      this.clearRackedBalls();
     }
   };
+
+  private clearRackedBalls() {
+    this.rackedBalls.forEach((rb) => {
+      this.app.stage.removeChild(rb);
+    });
+    this.rackedBalls = [];
+  }
 
   private createRackBall(position: number) {
     const rackBall = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
@@ -74,17 +97,7 @@ export class Paddle extends Entity {
     rackBall.scale.set(0.035, 0.035);
     rackBall.y = this.y - 25;
 
-    switch (position) {
-      case 0:
-        rackBall.x = this.x;
-        break;
-      case 1:
-        rackBall.x = this.x + 50;
-        break;
-      case 2:
-        rackBall.x = this.x - 50;
-        break;
-    }
+    this.positionRackBall(rackBall, position);
 
     return rackBall;
   }
@@ -94,6 +107,12 @@ export class Paddle extends Entity {
       return;
     }
 
-    // Fire the new balls!
+    // Fire the racked balls
+    this.rackedBalls.forEach((rb) =>
+      this.eventListener.fireEvent({ type: GameEventType.FIRE_BALL, position: rb.position })
+    );
+
+    // Clear racked balls
+    this.clearRackedBalls();
   };
 }

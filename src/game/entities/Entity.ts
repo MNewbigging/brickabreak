@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
 
+import { RandomUtils } from '../utils/RandomUtils';
 import { Vec2 } from '../utils/Vec2';
 
 export abstract class Entity {
+  public id = RandomUtils.createId();
   public sprite: PIXI.Sprite;
   public bounds: PIXI.Circle | PIXI.Rectangle;
 

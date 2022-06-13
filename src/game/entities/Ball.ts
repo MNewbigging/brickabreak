@@ -4,7 +4,9 @@ import darkEnergyBall from '/assets/darkEnergyBall.png';
 import { PhysicsEntity } from './Entity';
 
 export class Ball extends PhysicsEntity {
-  constructor(public radius = 1) {
+  public radius = 1;
+
+  constructor() {
     super();
 
     // Create the sprite for the ball, center origin
@@ -16,9 +18,12 @@ export class Ball extends PhysicsEntity {
 
     // Create the circle shape for the ball
     this.bounds = new PIXI.Circle(0, 0, this.sprite.width);
+    this.radius = this.sprite.width / 2;
 
     // Default settings
     this.speed = 3;
+    this.velocity.x = 0;
+    this.velocity.y = -1;
   }
 
   public update(dt: number) {
@@ -28,7 +33,7 @@ export class Ball extends PhysicsEntity {
     this.setPosition(x, y);
   }
 
-  public checkCollisions(maxWidth: number, maxHeight: number) {
+  public checkBoundsCollisions(maxWidth: number, maxHeight: number) {
     let collided = false;
 
     // Horizontal
