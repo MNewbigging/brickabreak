@@ -36,7 +36,7 @@ export class GameState {
     // this.app.stage.addChild(ball.sprite);
     // this.ball = ball;
 
-    this.paddle = new Paddle(this.keyboardListener);
+    this.paddle = new Paddle(this.keyboardListener, this.app);
     this.paddle.setPosition(this.app.renderer.width / 2, this.app.renderer.height - 100);
 
     this.app.stage.addChild(this.paddle.sprite);
