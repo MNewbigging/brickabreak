@@ -10,16 +10,14 @@ export class Ball {
 
   constructor(public radius = 1) {
     // Create the sprite for the ball, center origin
-    const sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
-    sprite.anchor.set(0.5, 0.5);
+    this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
+    this.sprite.anchor.set(0.5, 0.5);
 
     // Scale since image is massive
-    sprite.scale.set(0.035, 0.035);
-
-    this.sprite = sprite;
+    this.sprite.scale.set(0.035, 0.035);
 
     // Create the circle shape for the ball
-    this.circle = new PIXI.Circle(0, 0, sprite.width);
+    this.circle = new PIXI.Circle(0, 0, this.sprite.width);
   }
 
   public setPosition(x: number, y: number) {
