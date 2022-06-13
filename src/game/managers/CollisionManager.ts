@@ -46,4 +46,8 @@ export class CollisionManager {
       ball.velocity.y *= -1;
     }
   }
+
+  private checkBallPaddle(paddle: Paddle, ball: Ball) {
+    // Check if the ball has hit the paddle
+  }
 }
