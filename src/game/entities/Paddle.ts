@@ -13,9 +13,8 @@ export class Paddle {
   public halfWidth = 0;
   public height = 0;
   public halfHeight = 0;
-  public position = new Vec2();
   public speed = 3;
-
+  public position = new Vec2();
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
 
@@ -35,12 +34,13 @@ export class Paddle {
     this.halfHeight = this.height / 2;
     this.bounds = new PIXI.Rectangle(-this.halfWidth, -this.halfHeight, this.width, this.height);
 
-    console.log('paddle sprite', this.sprite);
-    console.log('paddle rect', this.bounds);
-
     // Controls
     keyboardListener.on('r', this.rackNewBall);
     keyboardListener.on(' ', this.fireNewBalls);
+  }
+
+  public get x() {
+    return this.bounds.x;
   }
 
   public set x(x: number) {
@@ -49,10 +49,19 @@ export class Paddle {
     this.bounds.x = x;
   }
 
+  public get y() {
+    return this.bounds.y;
+  }
+
   public set y(y: number) {
     this.position.y = y;
     this.sprite.y = y;
     this.bounds.y = y;
+  }
+
+  public setPosition(x: number, y: number) {
+    this.x = x;
+    this.y = y;
   }
 
   public update(dt: number) {
@@ -63,11 +72,11 @@ export class Paddle {
   private moveBoard(dt: number) {
     // Left
     if (this.keyboardListener.anyKeysPressed(['a', 'arrowleft'])) {
-      this.x = this.position.x - dt * this.speed;
+      this.x = this.x - dt * this.speed;
     }
     // Right
     if (this.keyboardListener.anyKeysPressed(['d', 'arrowright'])) {
-      this.x = this.position.x + dt * this.speed;
+      this.x = this.x + dt * this.speed;
     }
   }
 
@@ -78,13 +87,13 @@ export class Paddle {
   private positionRackBall(rb: PIXI.Sprite, position: number) {
     switch (position) {
       case 0:
-        rb.x = this.position.x;
+        rb.x = this.x;
         break;
       case 1:
-        rb.x = this.position.x + 50;
+        rb.x = this.x + 50;
         break;
       case 2:
-        rb.x = this.position.x - 50;
+        rb.x = this.x - 50;
         break;
     }
   }
@@ -115,7 +124,7 @@ export class Paddle {
     const rackBall = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
     rackBall.anchor.set(0.5, 0.5);
     rackBall.scale.set(0.035, 0.035);
-    rackBall.y = this.position.y - 25;
+    rackBall.y = this.y - 25;
 
     this.positionRackBall(rackBall, position);
 

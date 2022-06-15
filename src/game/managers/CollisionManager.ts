@@ -24,15 +24,13 @@ export class CollisionManager {
 
   private checkPaddleBounds(paddle: Paddle) {
     // Horizontal
-    const px = paddle.position.x;
+    const px = paddle.x;
     if (px + paddle.halfWidth > this.maxWidth) {
       // Over right edge, move back inside bounds
-      const x = this.maxWidth - paddle.halfWidth;
-      paddle.setX(x);
+      paddle.x = this.maxWidth - paddle.halfWidth;
     } else if (px - paddle.halfWidth < 0) {
       // Over left edge, move back inside bounds
-      const x = paddle.halfWidth;
-      paddle.setX(x);
+      paddle.x = paddle.halfWidth;
     }
   }
 
@@ -42,10 +40,10 @@ export class CollisionManager {
     const by = ball.position.y;
 
     if (bx + ball.radius > this.maxWidth) {
-      ball.setX(this.maxWidth - ball.radius);
+      ball.x = this.maxWidth - ball.radius;
       ball.velocity.x *= -1;
     } else if (bx - ball.radius < 0) {
-      ball.setX(ball.radius);
+      ball.x = ball.radius;
       ball.velocity.x *= -1;
     }
     // Vertical
@@ -53,7 +51,7 @@ export class CollisionManager {
       // Hit the bottom; lost the ball
       this.eventListener.fireEvent({ type: GameEventType.REMOVE_BALL, id: ball.id });
     } else if (by - ball.radius < 0) {
-      ball.setY(ball.radius);
+      ball.y = ball.radius;
       ball.velocity.y *= -1;
     }
   }
