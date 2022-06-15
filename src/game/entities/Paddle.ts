@@ -4,15 +4,17 @@ import darkEnergyBall from '/assets/darkEnergyBall.png';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { KeyboardListener } from '../listeners/KeyboardListener';
-import { RectangleEntity } from './Entity';
 import { Vec2 } from '../utils/Vec2';
 
-export class Paddle extends RectangleEntity {
-  public speed = 3;
+export class Paddle {
+  public sprite: PIXI.Sprite;
+  public bounds: PIXI.Rectangle;
   public width = 0;
   public halfWidth = 0;
   public height = 0;
   public halfHeight = 0;
+  public position = new Vec2();
+  public speed = 3;
 
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
@@ -22,9 +24,11 @@ export class Paddle extends RectangleEntity {
     private keyboardListener: KeyboardListener,
     private eventListener: GameEventListener
   ) {
-    super(blueboard);
+    // Create the sprite for the paddle
+    this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[blueboard].texture);
+    this.sprite.anchor.set(0.5, 0.5);
 
-    // Until the blueboard image is right size, do this fudge
+    // Create the paddle bounds
     this.width = 175;
     this.halfWidth = this.width / 2;
     this.height = 30;
@@ -39,6 +43,18 @@ export class Paddle extends RectangleEntity {
     keyboardListener.on(' ', this.fireNewBalls);
   }
 
+  public set x(x: number) {
+    this.position.x = x;
+    this.sprite.x = x;
+    this.bounds.x = x;
+  }
+
+  public set y(y: number) {
+    this.position.y = y;
+    this.sprite.y = y;
+    this.bounds.y = y;
+  }
+
   public update(dt: number) {
     this.moveBoard(dt);
     this.moveRackedBalls();
@@ -47,13 +63,11 @@ export class Paddle extends RectangleEntity {
   private moveBoard(dt: number) {
     // Left
     if (this.keyboardListener.anyKeysPressed(['a', 'arrowleft'])) {
-      const x = this.position.x - dt * this.speed;
-      this.setX(x);
+      this.x = this.position.x - dt * this.speed;
     }
     // Right
     if (this.keyboardListener.anyKeysPressed(['d', 'arrowright'])) {
-      const x = this.position.x + dt * this.speed;
-      this.setX(x);
+      this.x = this.position.x + dt * this.speed;
     }
   }
 
