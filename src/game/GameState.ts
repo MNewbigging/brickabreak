@@ -38,7 +38,7 @@ export class GameState {
 
     // Setup player paddle
     this.paddle = new Paddle(this.app, this.keyboardListener, this.eventListener);
-    this.paddle.setPosition(this.app.renderer.width / 2, this.app.renderer.height - 100);
+    this.paddle.setPosition(this.app.renderer.width / 2, 100);
     //this.app.stage.addChild(this.paddle.sprite);
 
     // Setup event callbacks

@@ -26,10 +26,18 @@ export class Ball {
     this.radius = this.sprite.width / 2 - 5; // adjust to suit image size
   }
 
+  public get x() {
+    return this.bounds.x;
+  }
+
   public set x(x: number) {
     this.position.x = x;
     this.sprite.x = x;
     this.bounds.x = x;
+  }
+
+  public get y() {
+    return this.bounds.y;
   }
 
   public set y(y: number) {

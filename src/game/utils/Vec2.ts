@@ -12,7 +12,16 @@ export class Vec2 {
     this.y *= scalar;
   }
 
+  public sub(v: Vec2) {
+    this.x -= v.x;
+    this.y -= v.y;
+  }
+
   // STATICS
+  public static sub(v1: Vec2, v2: Vec2) {
+    return new Vec2(v1.x - v2.x, v1.y - v2.y);
+  }
+
   public static getLengthSq(v: Vec2): number {
     return v.x * v.x + v.y * v.y;
   }
@@ -30,5 +39,9 @@ export class Vec2 {
 
   public static dot(v1: Vec2, v2: Vec2): number {
     return v1.x * v2.x + v1.y * v2.y;
+  }
+
+  public static multiplyScalar(v: Vec2, scalar: number) {
+    return new Vec2(v.x * scalar, v.y * scalar);
   }
 }

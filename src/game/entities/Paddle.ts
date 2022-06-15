@@ -13,8 +13,10 @@ export class Paddle {
   public halfWidth = 0;
   public height = 0;
   public halfHeight = 0;
-  public speed = 10;
+  public speed = 5;
   public position = new Vec2();
+  public direction = new Vec2();
+  public velocity = new Vec2();
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
 
@@ -49,25 +51,27 @@ export class Paddle {
   }
 
   public get x() {
-    return this.bounds.x;
+    return this.position.x;
   }
 
   public set x(x: number) {
     this.position.x = x;
     this.sprite.x = x;
-    this.bounds.x = x;
-    this.boundsHelper.x = x;
+
+    this.bounds.x = x - this.halfWidth;
+    this.boundsHelper.x = x - this.halfWidth;
   }
 
   public get y() {
-    return this.bounds.y;
+    return this.position.y;
   }
 
   public set y(y: number) {
     this.position.y = y;
     this.sprite.y = y;
-    this.bounds.y = y;
-    this.boundsHelper.y = y;
+
+    this.bounds.y = y - this.halfHeight;
+    this.boundsHelper.y = y - this.halfHeight;
   }
 
   public setPosition(x: number, y: number) {
@@ -81,14 +85,22 @@ export class Paddle {
   }
 
   private moveBoard(dt: number) {
+    // Clear direction each frame
+    this.direction.x = 0;
+
     // Left
     if (this.keyboardListener.anyKeysPressed(['a', 'arrowleft'])) {
-      this.x = this.x - dt * this.speed;
+      this.direction.x = -1;
     }
     // Right
     if (this.keyboardListener.anyKeysPressed(['d', 'arrowright'])) {
-      this.x = this.x + dt * this.speed;
+      this.direction.x = 1;
     }
+
+    // Ignore y velocity since it only moves left-right
+    this.velocity.x = this.direction.x * this.speed * dt;
+
+    this.x = this.x + this.velocity.x;
   }
 
   private moveRackedBalls() {

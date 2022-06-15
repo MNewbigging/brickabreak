@@ -23,4 +23,17 @@ export class PhysicsUtils {
 
     return cornerDistSq <= cR * cR;
   }
+
+  public static getNearestRectPointToCircle(
+    rLeft: number,
+    rRight: number,
+    rTop: number,
+    rBot: number,
+    cPos: Vec2
+  ) {
+    const xNearest = Math.max(rLeft, Math.min(cPos.x, rRight));
+    const yNearest = Math.max(rTop, Math.min(cPos.y, rBot));
+
+    return new Vec2(xNearest, yNearest);
+  }
 }

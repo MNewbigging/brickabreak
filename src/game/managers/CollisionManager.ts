@@ -70,28 +70,49 @@ export class CollisionManager {
       return collides;
     }
 
-    // Move ball outside of collision by moving backwards
-    ball.x -= ball.direction.x * ball.speed * dt;
-    ball.y -= ball.direction.y * ball.speed * dt;
-
     // Find nearest point on paddle
-    const rectLeft = paddle.bounds.left;
-    const rectRight = paddle.bounds.right;
-    const xNearest = Math.max(rectLeft, Math.min(ball.position.x, rectRight));
+    const rectNearest = PhysicsUtils.getNearestRectPointToCircle(
+      paddle.bounds.left,
+      paddle.bounds.right,
+      paddle.bounds.top,
+      paddle.bounds.bottom,
+      ball.position
+    );
 
-    const rectTop = paddle.bounds.top;
-    const rectBot = paddle.bounds.bottom;
-    const yNearest = Math.max(rectBot, Math.min(ball.position.x, rectTop));
+    // Get distance vector from nearest paddle point to ball
+    const distance = Vec2.sub(ball.position, rectNearest); // distance
 
-    // Reflect around normal of nearest point
-    const reflect = new Vec2(ball.position.x - xNearest, ball.position.y - yNearest); // distance
-    reflect.normalize(); // direction
-    const reflectAngle = 2 * Vec2.dot(ball.direction, reflect); // reflect theta
-    reflect.multiplyScalar(reflectAngle); // apply reflect magnitude to direction to give vel
+    // Normalize the distance vector to get the collision normal direction
+    const colNormal = Vec2.normalize(distance);
 
-    // Subtract reflect velocity from current to bounce
-    ball.direction.x -= reflect.x;
-    ball.direction.y -= reflect.y;
+    // Reflect the ball's current trajectory against the collision normal
+    const reflectAngle = 2 * Vec2.dot(ball.direction, colNormal);
+
+    // Scale the collision normal by the reflecting angle to give reflect velocity
+
+    const colReflect = Vec2.multiplyScalar(colNormal, reflectAngle - Math.abs(paddle.velocity.x));
+
+    // Subtract reflect velocity from direction to set rebound direction
+    ball.direction.x -= colReflect.x;
+    ball.direction.y -= colReflect.y;
+
+    // Also need to move the ball outside of the collision area along its new direction
+    const intDepth = Math.abs(Vec2.getLength(distance) - ball.radius);
+
+    const x = ball.x + ball.direction.x * intDepth;
+    const y = ball.y + ball.direction.y * intDepth;
+
+    ball.setPosition(x, y);
+
+    /**
+     * The above works only when paddle is stationary. If the paddle hits the ball on the side,
+     * the paddle is too much inside the ball and doesn't let it move outside (collision always
+     * occurs, ball freaks out).
+     *
+     * Need to move the ball outside of the paddle on collision.
+     *
+     *
+     */
 
     return collides;
   }
