@@ -23,7 +23,7 @@ export class Ball {
 
     // Create the circle shape for the ball
     this.bounds = new PIXI.Circle(0, 0, this.sprite.width);
-    this.radius = this.sprite.width / 2 - 5;
+    this.radius = this.sprite.width / 2 - 5; // adjust to suit image size
   }
 
   public set x(x: number) {

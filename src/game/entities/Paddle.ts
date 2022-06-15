@@ -13,7 +13,7 @@ export class Paddle {
   public halfWidth = 0;
   public height = 0;
   public halfHeight = 0;
-  public speed = 3;
+  public speed = 10;
   public position = new Vec2();
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
@@ -28,9 +28,9 @@ export class Paddle {
     this.sprite.anchor.set(0.5, 0.5);
 
     // Create the paddle bounds
-    this.width = 175;
+    this.width = this.sprite.width;
     this.halfWidth = this.width / 2;
-    this.height = 30;
+    this.height = this.sprite.height;
     this.halfHeight = this.height / 2;
     this.bounds = new PIXI.Rectangle(-this.halfWidth, -this.halfHeight, this.width, this.height);
 
@@ -124,7 +124,7 @@ export class Paddle {
     const rackBall = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
     rackBall.anchor.set(0.5, 0.5);
     rackBall.scale.set(0.035, 0.035);
-    rackBall.y = this.y - 25;
+    rackBall.y = this.y - 50;
 
     this.positionRackBall(rackBall, position);
 
