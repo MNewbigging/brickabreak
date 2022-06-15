@@ -22,20 +22,17 @@ export class Paddle extends RectangleEntity {
     private keyboardListener: KeyboardListener,
     private eventListener: GameEventListener
   ) {
-    super();
+    super(blueboard);
 
-    // Create the sprite for the board
-    this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[blueboard].texture);
-    this.sprite.anchor.set(0.5, 0.5);
-
-    // Create the rectangle shape for the bounds
-    this.bounds = new PIXI.Rectangle(0, 0, 175, 1);
-
-    // Set size props
-    this.width = this.bounds.width;
+    // Until the blueboard image is right size, do this fudge
+    this.width = 175;
     this.halfWidth = this.width / 2;
-    this.height = this.bounds.height;
+    this.height = 30;
     this.halfHeight = this.height / 2;
+    this.bounds = new PIXI.Rectangle(-this.halfWidth, -this.halfHeight, this.width, this.height);
+
+    console.log('paddle sprite', this.sprite);
+    console.log('paddle rect', this.bounds);
 
     // Controls
     keyboardListener.on('r', this.rackNewBall);

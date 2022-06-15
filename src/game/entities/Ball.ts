@@ -10,11 +10,7 @@ export class Ball extends CircleEntity implements IPhysicsEntity {
   public velocity = new Vec2(0, -1);
 
   constructor() {
-    super();
-
-    // Create the sprite for the ball, center origin
-    this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[darkEnergyBall].texture);
-    this.sprite.anchor.set(0.5, 0.5);
+    super(darkEnergyBall);
 
     // Scale since image is massive
     this.sprite.scale.set(0.035, 0.035);

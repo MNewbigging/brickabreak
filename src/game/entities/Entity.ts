@@ -6,8 +6,12 @@ import { Vec2 } from '../utils/Vec2';
 export abstract class Entity {
   public id = RandomUtils.createId();
   public sprite: PIXI.Sprite;
-  // public bounds: PIXI.Circle | PIXI.Rectangle;
   public position = new Vec2();
+
+  constructor(texture: string) {
+    this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[texture].texture);
+    this.sprite.anchor.set(0.5, 0.5);
+  }
 
   public setX(x: number) {
     this.sprite.x = x;
@@ -26,7 +30,23 @@ export abstract class Entity {
 }
 
 export abstract class RectangleEntity extends Entity {
-  bounds: PIXI.Rectangle;
+  public bounds: PIXI.Rectangle;
+  public width = 0;
+  public halfWidth = 0;
+  public height = 0;
+  public halfHeight = 0;
+
+  constructor(texture: string) {
+    super(texture);
+
+    this.width = this.sprite.width;
+    this.halfWidth = this.width / 2;
+    this.height = this.sprite.height;
+    this.halfHeight = this.height / 2;
+
+    // Create bounds rect
+    this.bounds = new PIXI.Rectangle(-this.halfWidth, -this.halfHeight, this.width, this.height);
+  }
 
   public setX(x: number) {
     super.setX(x);
