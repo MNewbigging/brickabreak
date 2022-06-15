@@ -18,6 +18,8 @@ export class Paddle {
   private rackedBalls: PIXI.Sprite[] = [];
   private maxRackSize = 3;
 
+  private boundsHelper: PIXI.Graphics;
+
   constructor(
     private app: PIXI.Application,
     private keyboardListener: KeyboardListener,
@@ -34,6 +36,13 @@ export class Paddle {
     this.halfHeight = this.height / 2;
     this.bounds = new PIXI.Rectangle(-this.halfWidth, -this.halfHeight, this.width, this.height);
 
+    // Helper
+    this.boundsHelper = new PIXI.Graphics();
+    this.boundsHelper.beginFill(0xffffff);
+    this.boundsHelper.lineStyle(1, 0xff0000);
+    this.boundsHelper.drawRect(this.x, this.y, this.width, this.height);
+    app.stage.addChild(this.boundsHelper);
+
     // Controls
     keyboardListener.on('r', this.rackNewBall);
     keyboardListener.on(' ', this.fireNewBalls);
@@ -47,6 +56,7 @@ export class Paddle {
     this.position.x = x;
     this.sprite.x = x;
     this.bounds.x = x;
+    this.boundsHelper.x = x;
   }
 
   public get y() {
@@ -57,6 +67,7 @@ export class Paddle {
     this.position.y = y;
     this.sprite.y = y;
     this.bounds.y = y;
+    this.boundsHelper.y = y;
   }
 
   public setPosition(x: number, y: number) {

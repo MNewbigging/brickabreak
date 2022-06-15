@@ -39,7 +39,7 @@ export class GameState {
     // Setup player paddle
     this.paddle = new Paddle(this.app, this.keyboardListener, this.eventListener);
     this.paddle.setPosition(this.app.renderer.width / 2, this.app.renderer.height - 100);
-    this.app.stage.addChild(this.paddle.sprite);
+    //this.app.stage.addChild(this.paddle.sprite);
 
     // Setup event callbacks
     this.eventListener.on(GameEventType.FIRE_BALL, this.onFireBall);
@@ -61,7 +61,7 @@ export class GameState {
     this.balls.forEach((b) => b.update(dt));
 
     // Collisions
-    this.collisionManager.checkCollisions(this.paddle, this.balls);
+    this.collisionManager.checkCollisions(dt, this.paddle, this.balls);
   };
 
   private onFireBall = (event: GameEvent<GameEventType.FIRE_BALL>) => {

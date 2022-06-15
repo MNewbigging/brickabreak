@@ -9,9 +9,9 @@ export class Ball {
   public sprite: PIXI.Sprite;
   public bounds: PIXI.Circle;
   public radius = 1;
-  public speed = 10;
+  public speed = 1;
   public position = new Vec2();
-  public velocity = new Vec2(0, -1);
+  public direction = new Vec2(0, -1);
 
   constructor() {
     // Create the ball sprite
@@ -45,8 +45,8 @@ export class Ball {
 
   public update(dt: number) {
     // Move
-    const x = this.sprite.x + this.velocity.x * dt * this.speed;
-    const y = this.sprite.y + this.velocity.y * dt * this.speed;
+    const x = this.sprite.x + this.direction.x * dt * this.speed;
+    const y = this.sprite.y + this.direction.y * dt * this.speed;
     this.setPosition(x, y);
   }
 }
