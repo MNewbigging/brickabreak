@@ -12,3 +12,5 @@ Things to track:
 - count of bricks hit with current ball
 
 -- Get the top left/ bottom left kenney font in 
+
+-- Aiming of ball before firing it

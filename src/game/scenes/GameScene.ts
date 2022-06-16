@@ -125,6 +125,7 @@ export class GameScene extends Phaser.Scene {
 
   private onBricksCleared = () => {
     // Reset ball and paddle for next stage
+    // TODO - do this on short delay so it's not snapping?
     this.resetBall();
 
     // Fire the stage end event
