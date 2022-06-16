@@ -13,7 +13,7 @@ export class BootScene extends Phaser.Scene {
   private startBtn: Phaser.GameObjects.Image;
 
   constructor() {
-    super({ key: 'boot' });
+    super({ key: 'BootScene' });
   }
 
   public preload() {
@@ -45,6 +45,8 @@ export class BootScene extends Phaser.Scene {
 
   private onStart = () => {
     console.log('start game');
+
+    this.scene.start('GameScene');
   };
 
   private getGameSize(): Vec2 {

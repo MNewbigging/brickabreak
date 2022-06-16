@@ -3,9 +3,7 @@ import './app.scss';
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { AppState, Screen } from './AppState';
-import { GameScreen } from './ui/game-screen/GameScreen';
-import { MainMenu } from './ui/main-menu/MainMenu';
+import { AppState } from './AppState';
 
 interface AppProps {
   appState: AppState;
@@ -25,11 +23,9 @@ export const App: React.FC<AppProps> = observer(({ appState }) => {
    * so the game is always running, UI is just shown on top of it (dialog style).
    */
 
-  // What screen are we on?
-  switch (appState.screen) {
-    case Screen.MAIN_MENU:
-      return <MainMenu appState={appState} />;
-    case Screen.GAME:
-      return <GameScreen />;
-  }
+  return (
+    <>
+      <div id='game-stage'></div>
+    </>
+  );
 });

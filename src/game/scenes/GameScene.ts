@@ -17,7 +17,7 @@ export class GameScene extends Phaser.Scene {
   private paddle: Body;
 
   constructor(private eventListener: GameEventListener) {
-    super({ key: 'brickabreak' });
+    super({ key: 'GameScene' });
   }
 
   public preload() {
