@@ -3,8 +3,14 @@ import { action, makeObservable, observable } from 'mobx';
 import { GameEventListener, GameEventType } from './game/listeners/GameEventListener';
 import { GameState } from './game/GameState';
 
+export enum ScreenState {
+  OPEN = 'open',
+  CLOSED = 'closed',
+}
+
 export class AppState {
   public showRewards = false;
+  public rewardsState = ScreenState.CLOSED;
   public gameState: GameState;
   public eventListener = new GameEventListener();
 
@@ -13,6 +19,7 @@ export class AppState {
     makeObservable(this, {
       showRewards: observable,
       onStageEnd: action,
+      rewardsState: observable,
     });
 
     // Allow UI to mount
@@ -33,5 +40,6 @@ export class AppState {
 
     // Show rewards screen
     this.showRewards = true;
+    this.rewardsState = ScreenState.OPEN;
   };
 }

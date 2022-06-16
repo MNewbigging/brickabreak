@@ -41,17 +41,18 @@ export class GameScene extends Phaser.Scene {
 
     // Create bricks
     this.bricks = this.physics.add.staticGroup();
-    const minX = 200;
-    const brickWidth = 84;
-    const minY = 75;
-    const brickHeight = 60;
-    for (let i = 0; i < 5; i++) {
-      const y = minY + i * brickHeight;
-      for (let j = 0; j < 5; j++) {
-        const x = minX + j * brickWidth;
-        this.bricks.create(x, y, 'brick');
-      }
-    }
+    this.bricks.create(center.x, center.y, 'brick');
+    // const minX = 200;
+    // const brickWidth = 84;
+    // const minY = 75;
+    // const brickHeight = 60;
+    // for (let i = 0; i < 5; i++) {
+    //   const y = minY + i * brickHeight;
+    //   for (let j = 0; j < 5; j++) {
+    //     const x = minX + j * brickWidth;
+    //     this.bricks.create(x, y, 'brick');
+    //   }
+    // }
 
     // Ball
     this.ball = this.physics.add
@@ -145,12 +146,12 @@ export class GameScene extends Phaser.Scene {
     // }
   };
 
-  private onBricksCleared() {
+  private onBricksCleared = () => {
     // Reset ball and paddle for next stage
 
     // Fire the stage end event
     this.eventListener.fireEvent({ type: GameEventType.STAGE_END });
-  }
+  };
 
   private getGameSize(): Vec2 {
     return new Vec2(this.sys.game.scale.gameSize.width, this.sys.game.scale.gameSize.height);

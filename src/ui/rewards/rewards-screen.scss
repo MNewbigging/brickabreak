@@ -1,0 +1,20 @@
+.rewards-screen {
+  position: absolute;
+
+  // This blocks mouse over game canvas - which is good, so
+  // it should totally cover playable area
+  width: 60%;
+  height: 95%;
+
+  border: 2px solid green;
+
+  transition: all 0.75s ease-in-out;
+
+  &.open {
+    transform: translateY(0);
+  }
+
+  &.closed {
+    transform: translateY(-200%);
+  }
+}
