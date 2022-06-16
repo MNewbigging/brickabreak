@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 import { GameScene } from './GameScene';
 
-export class PGameState {
+export class GameState {
   private game: Phaser.Game;
   private scene: GameScene;
 

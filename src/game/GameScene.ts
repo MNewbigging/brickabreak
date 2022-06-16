@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import blueboard from '/assets/blueboard.png';
-import brick from '/assets/brick.png';
-import darkEnergyBall from '/assets/darkEnergyBall.png';
+import evilball from '/assets/evilball.png';
+import whitebrick from '/assets/whitebrick.png';
 
 import { Vec2 } from '../game/utils/Vec2';
 
@@ -20,16 +20,12 @@ export class GameScene extends Phaser.Scene {
   }
 
   public preload() {
-    console.log('preload');
-
     this.load.image('paddle', blueboard);
-    this.load.image('ball', darkEnergyBall);
-    this.load.image('brick', brick);
+    this.load.image('ball', evilball);
+    this.load.image('brick', whitebrick);
   }
 
   public create() {
-    console.log('create');
-
     this.gameSize = new Vec2(
       this.sys.game.scale.gameSize.width,
       this.sys.game.scale.gameSize.height
@@ -39,19 +35,27 @@ export class GameScene extends Phaser.Scene {
       this.sys.game.scale.gameSize.height / 2
     );
 
-    //this.add.image(center.x, center.y, 'brick'); //.setScale(0.035);
-
     // Enable world bounds, but disable floor
     this.physics.world.setBoundsCollision(true, true, true, false);
 
     // Create bricks
     this.bricks = this.physics.add.staticGroup();
-    this.bricks.create(center.x, 100, 'brick');
+    const minX = 200;
+    const brickWidth = 84;
+    const minY = 75;
+    const brickHeight = 60;
+    for (let i = 0; i < 5; i++) {
+      const y = minY + i * brickHeight;
+      for (let j = 0; j < 5; j++) {
+        const x = minX + j * brickWidth;
+        this.bricks.create(x, y, 'brick');
+      }
+    }
 
     // Ball
     this.ball = this.physics.add
       .image(center.x, this.gameSize.y - 100, 'ball')
-      .setScale(0.035)
+      .setScale(0.25)
       .setCollideWorldBounds(true)
       .setBounce(1);
 
@@ -99,11 +103,25 @@ export class GameScene extends Phaser.Scene {
     this.ballOnPaddle = true;
   }
 
-  private onHitBrick = () => {
-    console.log('hit brick');
+  private onHitBrick = (_ball: Body, brick: Body) => {
+    brick.disableBody(true, true);
   };
 
   private onHitPaddle = () => {
-    console.log('hit paddle');
+    let diff = 0;
+
+    if (this.ball.x < this.paddle.x) {
+      //  Ball is on the left-hand side of the paddle
+      diff = this.paddle.x - this.ball.x;
+      this.ball.setVelocityX(-10 * diff);
+    } else if (this.ball.x > this.paddle.x) {
+      //  Ball is on the right-hand side of the paddle
+      diff = this.ball.x - this.paddle.x;
+      this.ball.setVelocityX(10 * diff);
+    } else {
+      //  Ball is perfectly in the middle
+      //  Add a little random X to stop it bouncing straight up!
+      this.ball.setVelocityX(2 + Math.random() * 8);
+    }
   };
 }

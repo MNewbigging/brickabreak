@@ -1,6 +1,6 @@
 export class GameLoader {
   public load(onLoad: () => void) {
-    // Load all assets
+    // TODO - Load all assets here instead of per-scene
     onLoad();
   }
 }

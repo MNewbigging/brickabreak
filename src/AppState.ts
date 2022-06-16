@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 
 import { GameLoader } from './game/GameLoader';
-import { PGameState } from './game/PGameState';
+import { GameState } from './game/GameState';
 
 export enum Screen {
   MAIN_MENU = 'main-menu',
@@ -12,7 +12,7 @@ export class AppState {
   public screen = Screen.MAIN_MENU;
   public loading = true;
   public gameLoader = new GameLoader();
-  public pGameState: PGameState;
+  public pGameState: GameState;
 
   constructor() {
     // UI cares about these props
@@ -53,7 +53,7 @@ export class AppState {
     // // Can now start
     // this.gameState.start();
 
-    this.pGameState = new PGameState();
+    this.pGameState = new GameState();
     this.pGameState.setup();
   }
 }
