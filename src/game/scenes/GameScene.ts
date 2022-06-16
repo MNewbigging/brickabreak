@@ -151,4 +151,14 @@ export class GameScene extends Phaser.Scene {
     // Fire the stage end event
     this.eventListener.fireEvent({ type: GameEventType.STAGE_END });
   }
+
+  private getGameSize(): Vec2 {
+    return new Vec2(this.sys.game.scale.gameSize.width, this.sys.game.scale.gameSize.height);
+  }
+
+  private getGameCenter(): Vec2 {
+    const gameSize = this.getGameSize();
+
+    return new Vec2(gameSize.x / 2, gameSize.y / 2);
+  }
 }
