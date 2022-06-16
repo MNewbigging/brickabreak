@@ -3,7 +3,8 @@ import blueboard from '/assets/blueboard.png';
 import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
 
-import { Vec2 } from '../game/utils/Vec2';
+import { GameEventListener } from '../listeners/GameEventListener';
+import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 type BrickGroup = Phaser.Physics.Arcade.StaticGroup;
@@ -15,7 +16,7 @@ export class GameScene extends Phaser.Scene {
   private ball: Body;
   private paddle: Body;
 
-  constructor() {
+  constructor(private eventListener: GameEventListener) {
     super({ key: 'brickabreak' });
   }
 

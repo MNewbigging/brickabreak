@@ -1,13 +1,9 @@
-import { Vec2 } from '../utils/Vec2';
-
 export enum GameEventType {
-  FIRE_BALL = 'fire-ball',
-  REMOVE_BALL = 'remove-ball',
+  STAGE_END = 'stage-end',
 }
 
 export type GameEvent<T extends GameEventType> = Extract<
-  | { type: GameEventType.FIRE_BALL; position: Vec2 }
-  | { type: GameEventType.REMOVE_BALL; id: string },
+  { type: GameEventType.STAGE_END },
   { type: T }
 >;
 

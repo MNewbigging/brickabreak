@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import { GameEventListener, GameEventType } from './game/listeners/GameEventListener';
 import { GameLoader } from './game/GameLoader';
 import { GameState } from './game/GameState';
 
@@ -12,7 +13,8 @@ export class AppState {
   public screen = Screen.MAIN_MENU;
   public loading = true;
   public gameLoader = new GameLoader();
-  public pGameState: GameState;
+  public gameState: GameState;
+  public eventListener = new GameEventListener();
 
   constructor() {
     // UI cares about these props
@@ -46,14 +48,15 @@ export class AppState {
   };
 
   public setupGame() {
-    // Load game
-    // this.gameState = new GameState();
-    // this.gameState.setup();
+    // Register for any game events
+    this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
-    // // Can now start
-    // this.gameState.start();
-
-    this.pGameState = new GameState();
-    this.pGameState.setup();
+    // Create game state and start
+    this.gameState = new GameState(this.eventListener);
+    this.gameState.setup();
   }
+
+  private onStageEnd = () => {
+    // Show rewards screen
+  };
 }
