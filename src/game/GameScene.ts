@@ -84,7 +84,13 @@ export class GameScene extends Phaser.Scene {
         this.ballOnPaddle = false;
       }
     });
+
+    this.scale.on('resize', this.resize);
   }
+
+  public resize = () => {
+    console.log('resize');
+  };
 
   public update(time: number, delta: number): void {
     // Update ball position if attached to paddle
@@ -105,23 +111,30 @@ export class GameScene extends Phaser.Scene {
 
   private onHitBrick = (_ball: Body, brick: Body) => {
     brick.disableBody(true, true);
+
+    // Increase speed of ball - get current speed
+    const curSpeed = this.ball.body.velocity.length();
+    // The new speed is slightly faster than the current speed
+    const newSpeed = curSpeed * 1.1;
+    // Apply the new speed by scaling against normalised velocity
+    this.ball.body.velocity.normalize().scale(newSpeed);
   };
 
   private onHitPaddle = () => {
-    let diff = 0;
-
-    if (this.ball.x < this.paddle.x) {
-      //  Ball is on the left-hand side of the paddle
-      diff = this.paddle.x - this.ball.x;
-      this.ball.setVelocityX(-10 * diff);
-    } else if (this.ball.x > this.paddle.x) {
-      //  Ball is on the right-hand side of the paddle
-      diff = this.ball.x - this.paddle.x;
-      this.ball.setVelocityX(10 * diff);
-    } else {
-      //  Ball is perfectly in the middle
-      //  Add a little random X to stop it bouncing straight up!
-      this.ball.setVelocityX(2 + Math.random() * 8);
-    }
+    // Some basic, but not great, reflecting angle logic for the paddle
+    // let diff = 0;
+    // if (this.ball.x < this.paddle.x) {
+    //   //  Ball is on the left-hand side of the paddle
+    //   diff = this.paddle.x - this.ball.x;
+    //   this.ball.setVelocityX(-10 * diff);
+    // } else if (this.ball.x > this.paddle.x) {
+    //   //  Ball is on the right-hand side of the paddle
+    //   diff = this.ball.x - this.paddle.x;
+    //   this.ball.setVelocityX(10 * diff);
+    // } else {
+    //   //  Ball is perfectly in the middle
+    //   //  Add a little random X to stop it bouncing straight up!
+    //   this.ball.setVelocityX(2 + Math.random() * 8);
+    // }
   };
 }
