@@ -1,7 +1,4 @@
 import Phaser from 'phaser';
-import blueboard from '/assets/blueboard.png';
-import evilball from '/assets/evilball.png';
-import whitebrick from '/assets/whitebrick.png';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { Vec2 } from '../utils/Vec2';
@@ -20,21 +17,9 @@ export class GameScene extends Phaser.Scene {
     super({ key: 'GameScene' });
   }
 
-  public preload() {
-    this.load.image('paddle', blueboard);
-    this.load.image('ball', evilball);
-    this.load.image('brick', whitebrick);
-  }
-
   public create() {
-    this.gameSize = new Vec2(
-      this.sys.game.scale.gameSize.width,
-      this.sys.game.scale.gameSize.height
-    );
-    const center = new Vec2(
-      this.sys.game.scale.gameSize.width / 2,
-      this.sys.game.scale.gameSize.height / 2
-    );
+    this.gameSize = this.getGameSize();
+    const center = this.getGameCenter();
 
     // Enable world bounds, but disable floor
     this.physics.world.setBoundsCollision(true, true, true, false);
@@ -148,6 +133,7 @@ export class GameScene extends Phaser.Scene {
 
   private onBricksCleared = () => {
     // Reset ball and paddle for next stage
+    this.resetBall();
 
     // Fire the stage end event
     this.eventListener.fireEvent({ type: GameEventType.STAGE_END });

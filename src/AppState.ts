@@ -9,7 +9,6 @@ export enum ScreenState {
 }
 
 export class AppState {
-  public showRewards = false;
   public rewardsState = ScreenState.CLOSED;
   public gameState: GameState;
   public eventListener = new GameEventListener();
@@ -17,7 +16,6 @@ export class AppState {
   constructor() {
     // UI cares about these props
     makeObservable(this, {
-      showRewards: observable,
       onStageEnd: action,
       rewardsState: observable,
     });
@@ -39,7 +37,6 @@ export class AppState {
     console.log('app state stage end');
 
     // Show rewards screen
-    this.showRewards = true;
     this.rewardsState = ScreenState.OPEN;
   };
 }
