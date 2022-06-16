@@ -2,6 +2,7 @@ import { action, makeObservable, observable } from 'mobx';
 
 import { GameLoader } from './game/GameLoader';
 import { GameState } from './game/GameState';
+import { PGameState } from './phaser/PGameState';
 
 export enum Screen {
   MAIN_MENU = 'main-menu',
@@ -13,6 +14,7 @@ export class AppState {
   public loading = true;
   public gameLoader = new GameLoader();
   public gameState: GameState;
+  public pGameState: PGameState;
 
   constructor() {
     // UI cares about these props
@@ -47,10 +49,13 @@ export class AppState {
 
   public setupGame() {
     // Load game
-    this.gameState = new GameState();
-    this.gameState.setup();
+    // this.gameState = new GameState();
+    // this.gameState.setup();
 
-    // Can now start
-    this.gameState.start();
+    // // Can now start
+    // this.gameState.start();
+
+    this.pGameState = new PGameState();
+    this.pGameState.setup();
   }
 }
