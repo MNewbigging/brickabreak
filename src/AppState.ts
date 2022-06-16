@@ -12,6 +12,7 @@ export enum Screen {
 export class AppState {
   public screen = Screen.MAIN_MENU;
   public loading = true;
+  public showRewards = false;
   public gameLoader = new GameLoader();
   public gameState: GameState;
   public eventListener = new GameEventListener();
@@ -23,6 +24,8 @@ export class AppState {
       changeScreen: action,
       loading: observable,
       onLoad: action,
+      showRewards: observable,
+      onStageEnd: action,
     });
 
     // Kick off game loading
@@ -56,7 +59,10 @@ export class AppState {
     this.gameState.setup();
   }
 
-  private onStageEnd = () => {
+  public onStageEnd = () => {
+    console.log('app state stage end');
+
     // Show rewards screen
+    this.showRewards = true;
   };
 }

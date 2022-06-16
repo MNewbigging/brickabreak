@@ -1,0 +1,6 @@
+- create the loading scene:
+-- start button begins the first game
+
+- GameScene needs to know what bricks to load for that stage
+-- some kind of game manager to track stages to know what to build for next stage
+

@@ -3,7 +3,7 @@ import blueboard from '/assets/blueboard.png';
 import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
 
-import { GameEventListener } from '../listeners/GameEventListener';
+import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -113,6 +113,12 @@ export class GameScene extends Phaser.Scene {
   private onHitBrick = (_ball: Body, brick: Body) => {
     brick.disableBody(true, true);
 
+    // Was this the last brick in the stage?
+    if (this.bricks.countActive() === 0) {
+      this.onBricksCleared();
+      return;
+    }
+
     // Increase speed of ball - get current speed
     const curSpeed = this.ball.body.velocity.length();
     // The new speed is slightly faster than the current speed
@@ -138,4 +144,11 @@ export class GameScene extends Phaser.Scene {
     //   this.ball.setVelocityX(2 + Math.random() * 8);
     // }
   };
+
+  private onBricksCleared() {
+    // Reset ball and paddle for next stage
+
+    // Fire the stage end event
+    this.eventListener.fireEvent({ type: GameEventType.STAGE_END });
+  }
 }

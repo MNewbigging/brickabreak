@@ -14,6 +14,17 @@ interface AppProps {
  * App is the entry level, higher-order component that renders the current screen.
  */
 export const App: React.FC<AppProps> = observer(({ appState }) => {
+  // Should the rewards screen be shown?
+  if (appState.showRewards) {
+    //
+  }
+
+  /**
+   * The game screen just holds the area for the canvas. This should actually always be shown,
+   * because we're losing the main menu screen in place of a loading scene within the game -
+   * so the game is always running, UI is just shown on top of it (dialog style).
+   */
+
   // What screen are we on?
   switch (appState.screen) {
     case Screen.MAIN_MENU:
