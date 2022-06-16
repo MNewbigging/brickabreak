@@ -4,8 +4,8 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { AppState, Screen } from './AppState';
-import { GameScreen } from './components/game-screen/GameScreen';
-import { MainMenu } from './components/main-menu/MainMenu';
+import { GameScreen } from './ui/game-screen/GameScreen';
+import { MainMenu } from './ui/main-menu/MainMenu';
 
 interface AppProps {
   appState: AppState;

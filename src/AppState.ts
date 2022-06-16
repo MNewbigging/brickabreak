@@ -1,8 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 
 import { GameLoader } from './game/GameLoader';
-import { GameState } from './game/GameState';
-import { PGameState } from './phaser/PGameState';
+import { PGameState } from './game/PGameState';
 
 export enum Screen {
   MAIN_MENU = 'main-menu',
@@ -13,7 +12,6 @@ export class AppState {
   public screen = Screen.MAIN_MENU;
   public loading = true;
   public gameLoader = new GameLoader();
-  public gameState: GameState;
   public pGameState: PGameState;
 
   constructor() {

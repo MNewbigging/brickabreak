@@ -16,7 +16,10 @@ export class PGameState {
         mode: Phaser.Scale.RESIZE,
       },
       backgroundColor: '#f2f2f2',
-      scene: this.scene,
+      scene: [this.scene],
+      physics: {
+        default: 'arcade',
+      },
     };
 
     this.game = new Phaser.Game(config);
