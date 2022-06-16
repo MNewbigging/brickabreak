@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
+import { GameManager } from '../GameManager';
 import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -96,8 +97,9 @@ export class GameScene extends Phaser.Scene {
     this.ballOnPaddle = true;
   }
 
-  private onHitBrick = (_ball: Body, brick: Body) => {
-    brick.disableBody(true, true);
+  private onHitBrick = (ball: Body, brick: Body) => {
+    // Damage the brick
+    this.damageBrick(ball, brick);
 
     // Was this the last brick in the stage?
     if (this.bricks.countActive() === 0) {
@@ -111,6 +113,22 @@ export class GameScene extends Phaser.Scene {
     const newSpeed = curSpeed * 1.1;
     // Apply the new speed by scaling against normalised velocity
     this.ball.body.velocity.normalize().scale(newSpeed);
+  };
+
+  private damageBrick(_ball: Body, brick: Body) {
+    // TODO - damage model, just removing for now
+    brick.disableBody(true, true);
+
+    // Fire destroyed brick event
+    this.eventListener.fireEvent({ type: GameEventType.BRICK_DESTROYED });
+  }
+
+  private onBricksCleared = () => {
+    // Reset ball and paddle for next stage
+    this.resetBall();
+
+    // Fire the stage end event
+    this.eventListener.fireEvent({ type: GameEventType.STAGE_END });
   };
 
   private onHitPaddle = () => {
@@ -129,14 +147,6 @@ export class GameScene extends Phaser.Scene {
     //   //  Add a little random X to stop it bouncing straight up!
     //   this.ball.setVelocityX(2 + Math.random() * 8);
     // }
-  };
-
-  private onBricksCleared = () => {
-    // Reset ball and paddle for next stage
-    this.resetBall();
-
-    // Fire the stage end event
-    this.eventListener.fireEvent({ type: GameEventType.STAGE_END });
   };
 
   private getGameSize(): Vec2 {

@@ -8,10 +8,11 @@ import { GameScene } from './scenes/GameScene';
 export class GameState {
   private game: Phaser.Game;
   private mainScene: GameScene;
-  private gameManager = new GameManager();
+  private gameManager: GameManager;
 
   constructor(private eventListener: GameEventListener) {
     this.mainScene = new GameScene(eventListener);
+    this.gameManager = new GameManager(eventListener);
   }
 
   public setup() {

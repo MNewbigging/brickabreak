@@ -5,8 +5,7 @@
 -- some kind of game manager to track stages to know what to build for next stage
 
 Things to track:
-- current stage
-- total number of stages cleared 
+- current stage / total number of stages cleared (same thing - 1) 
 - balls remaining
 - paddle mods, ball mods, brick mods 
 - getRewards() - returns three reward choices (takes into account current modes and stage)

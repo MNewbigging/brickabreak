@@ -1,4 +1,48 @@
+import { GameEventListener, GameEventType } from './listeners/GameEventListener';
+
 /**
  * The game manager tracks stages, ball count, stats and mods throughout the game.
+ *
+ * !! Can this operate totally via events?
+ * - the game scene needs direct access to ballsRemaining... or does it?
+ * - ball goes down, fire event 'lost ball'
+ * - GM picks up and ball count is now 0 - fires 'game over' event
+ * - this is all synchronous so game isn't continuing at this point
+ *
  */
-export class GameManager {}
+export class GameManager {
+  public currentStage = 1;
+  public ballsRemaining = 3;
+  public comboBrickCount = 0;
+
+  constructor(private eventListener: GameEventListener) {
+    eventListener.on(GameEventType.STAGE_START, this.onStartStage);
+    eventListener.on(GameEventType.BALL_LOST, this.onBallLost);
+    eventListener.on(GameEventType.BRICK_DESTROYED, this.onHitBrick);
+  }
+
+  public getTotalStagesCleared() {
+    return this.currentStage - 1;
+  }
+
+  private onStartStage = () => {
+    this.currentStage++;
+  };
+
+  private onHitBrick = () => {
+    this.comboBrickCount++;
+  };
+
+  private onBallLost = () => {
+    // Remove a ball
+    this.ballsRemaining--;
+
+    // Is that game over?
+    if (this.ballsRemaining <= 0) {
+      this.eventListener.fireEvent({ type: GameEventType.GAME_OVER });
+    }
+
+    // Reset combo brick count
+    this.comboBrickCount = 0;
+  };
+}
