@@ -90,6 +90,7 @@ export class GameScene extends Phaser.Scene {
       // Also update the line pos
       this.updateAimLine();
     }
+
     // Otherwise check if ball is out of lower bounds
     if (this.ball.y > this.gameSize.y + 100) {
       this.resetBall();
@@ -111,14 +112,6 @@ export class GameScene extends Phaser.Scene {
       Math.PI / 2 - 0.5
     );
 
-    // Line starts at ball's position
-    // Line end is based on ball's velocity-to-be
-    // const lineLength = 50;
-    // const aimTarget = new Vec2(this.ball.x, this.ball.y)
-    //   .sub(this.aimAngle.normalize().multiplyScalar(lineLength))
-    //   .sub(new Vec2(this.ball.x, this.ball.y));
-    // this.aimLine.setTo(0, -20, aimTarget.x, aimTarget.y);
-
     this.aimLine.x = this.ball.x;
     this.aimLine.y = this.ball.y;
   }
@@ -126,11 +119,12 @@ export class GameScene extends Phaser.Scene {
   private resetBall() {
     // Move ball above paddle and stop it moving
     this.ball.setVelocity(0);
-    this.ball.setPosition(this.paddle.x, this.paddle.y - 50);
     this.ballOnPaddle = true;
 
     // Show the aiming line
     this.aimLine.visible = true;
+    this.aimLine.x = this.ball.x;
+    this.aimLine.y = this.ball.y;
 
     // Fire ball lost event
     this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });

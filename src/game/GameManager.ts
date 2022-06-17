@@ -1,4 +1,5 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
+
 import { GameEventListener, GameEventType } from './listeners/GameEventListener';
 
 /**
@@ -22,6 +23,9 @@ export class GameManager {
       currentStage: observable,
       ballsRemaining: observable,
       comboBrickCount: observable,
+      onStartStage: action,
+      onHitBrick: action,
+      onBallLost: action,
     });
 
     eventListener.on(GameEventType.STAGE_START, this.onStartStage);
@@ -33,15 +37,15 @@ export class GameManager {
     return this.currentStage - 1;
   }
 
-  private onStartStage = () => {
+  public onStartStage = () => {
     this.currentStage++;
   };
 
-  private onHitBrick = () => {
+  public onHitBrick = () => {
     this.comboBrickCount++;
   };
 
-  private onBallLost = () => {
+  public onBallLost = () => {
     // Remove a ball
     this.ballsRemaining--;
 
