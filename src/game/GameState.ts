@@ -12,8 +12,8 @@ export class GameState {
   private mainScene: GameScene;
 
   constructor(private eventListener: GameEventListener) {
-    this.mainScene = new GameScene(eventListener);
     this.gameManager = new GameManager(eventListener);
+    this.mainScene = new GameScene(eventListener, this.gameManager);
   }
 
   public setup() {
@@ -33,6 +33,11 @@ export class GameState {
       scene: [bootScene, this.mainScene],
       physics: {
         default: 'arcade',
+      },
+      fps: {
+        min: 30,
+        target: 60,
+        smoothStep: true,
       },
     };
 

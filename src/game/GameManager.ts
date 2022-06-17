@@ -10,6 +10,7 @@ export class GameManager {
   public ballsRemaining = 3;
   public comboBrickCount = 0;
   public score = 0;
+  public paddleSpeed = 200;
 
   constructor(private eventListener: GameEventListener) {
     makeObservable(this, {

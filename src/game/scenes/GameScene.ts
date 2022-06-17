@@ -2,11 +2,13 @@ import Phaser from 'phaser';
 
 import { Brick, BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
+import { GameManager } from '../GameManager';
 import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 type BrickGroup = Phaser.Physics.Arcade.StaticGroup;
 type Line = Phaser.GameObjects.Line;
+type Key = Phaser.Input.Keyboard.Key;
 
 export class GameScene extends Phaser.Scene {
   private gameSize: Vec2;
@@ -14,11 +16,15 @@ export class GameScene extends Phaser.Scene {
   private ballOnPaddle = true;
   private ball: Body;
   private paddle: Body;
+  private paddleHalfWidth = 0;
   private aimLine: Line;
+  private baseBallSpeed = 300;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private baseSpeed = 300;
+  private keyA: Key;
+  private keyD: Key;
+  private paddleTargetPos = 0;
 
-  constructor(private eventListener: GameEventListener) {
+  constructor(private eventListener: GameEventListener, private gameManager: GameManager) {
     super({ key: 'GameScene' });
 
     eventListener.on(GameEventType.STAGE_START, this.onStageStart);
@@ -44,6 +50,7 @@ export class GameScene extends Phaser.Scene {
 
     // Paddle
     this.paddle = this.physics.add.image(center.x, this.gameSize.y - 50, 'paddle').setImmovable();
+    this.paddleHalfWidth = this.paddle.width / 2;
 
     // Aiming line
     this.aimLine = this.add.line(0, 0, 0, -20, 0, -50, 0xffffff).setOrigin(0);
@@ -54,15 +61,20 @@ export class GameScene extends Phaser.Scene {
 
     // Input
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
     const paddleHalfWidth = this.paddle.width / 2;
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       // Keep paddle in bounds
-      this.paddle.x = Phaser.Math.Clamp(
-        pointer.x,
-        paddleHalfWidth,
-        this.gameSize.x - paddleHalfWidth
-      );
+      // this.paddle.x = Phaser.Math.Clamp(
+      //   pointer.x,
+      //   paddleHalfWidth,
+      //   this.gameSize.x - paddleHalfWidth
+      // );
+
+      // Save the pointer pos as target for paddle to move towards
+      this.paddleTargetPos = pointer.x;
     });
 
     this.input.on('pointerup', () => {
@@ -92,9 +104,9 @@ export class GameScene extends Phaser.Scene {
     // this.bricks.scaleXY(1, 1);
 
     // Quick brick
-    const center = this.getGameCenter();
-    this.bricks.create(center.x, center.y, 'bricks', 'brick-red');
-    return;
+    // const center = this.getGameCenter();
+    // this.bricks.create(center.x, center.y, 'bricks', 'brick-red');
+    // return;
 
     // Get the bricks to create for this stage
     const bricks: Brick[][] = BrickLayer.layBricks();
@@ -118,6 +130,9 @@ export class GameScene extends Phaser.Scene {
   };
 
   public update(time: number, delta: number): void {
+    // Update paddle
+    this.updatePaddle(delta);
+
     // Update ball position if attached to paddle
     if (this.ballOnPaddle) {
       this.ball.x = this.paddle.x;
@@ -134,6 +149,61 @@ export class GameScene extends Phaser.Scene {
       // Reset ball
       this.resetBall();
     }
+  }
+
+  private updatePaddle(dt: number) {
+    // if (this.keyA.isDown) {
+    //   // Move left
+    //   this.paddle.x -= dt * this.gameManager.paddleSpeed;
+    // } else if (this.keyD.isDown) {
+    //   // Move right
+    //   this.paddle.x += dt * this.gameManager.paddleSpeed;
+    // }
+
+    // Normalized different between current and target pos
+    const offset = this.paddleTargetPos - this.paddle.x;
+    const margin = this.gameManager.paddleSpeed / 20;
+    let diff = Math.abs(offset) < margin ? 0 : Math.sign(offset);
+
+    /**
+     * if exactly at left edge:
+     * - cannot go left more (diff can only be 0 or 1)
+     * if less than left edge:
+     * - reset to left edge, diff is 0
+     * if at right edge:
+     * - cannot go right more (diff can only be 0 or -1)
+     * if more than right edge:
+     * - reset to right edge, diff is 0
+     *
+     * if p.x - phw is negative
+     */
+
+    const rightEdge = this.gameSize.x - this.paddleHalfWidth;
+
+    // If exactly at left edge and trying to go left
+    if (this.paddle.x === this.paddleHalfWidth && diff === -1) {
+      // Cannot go left
+      diff = 0;
+    }
+    // If beyond left edge, go bak
+    else if (this.paddle.x < this.paddleHalfWidth) {
+      this.paddle.x = this.paddleHalfWidth;
+      // todo don't think this does anything
+      //this.paddleTargetPos = this.paddle.x;
+      diff = 0;
+    }
+    // If exactly at right edge and trying to go right
+    else if (this.paddle.x === rightEdge && diff === 1) {
+      diff = 0;
+    }
+    // If beyond right edge, go back
+    else if (this.paddle.x > rightEdge) {
+      this.paddle.x = this.gameSize.x - this.paddleHalfWidth;
+      //this.paddleTargetPos = this.paddle.x;
+      diff = 0;
+    }
+
+    this.paddle.setVelocityX(diff * this.gameManager.paddleSpeed);
   }
 
   private updateAimLine() {
@@ -171,7 +241,7 @@ export class GameScene extends Phaser.Scene {
     const dir = new Vec2(
       Math.cos(this.aimLine.rotation - Math.PI / 2),
       Math.sin(this.aimLine.rotation - Math.PI / 2)
-    ).multiplyScalar(this.baseSpeed);
+    ).multiplyScalar(this.baseBallSpeed);
 
     // Apply new velocity to ball
     this.ball.setVelocity(dir.x, dir.y);
