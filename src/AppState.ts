@@ -53,8 +53,6 @@ export class AppState {
   };
 
   public onStageEnd = () => {
-    console.log('app state stage end');
-
     // Show rewards screen
     this.rewardsState = ScreenState.OPEN;
   };
