@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
-import { GameManager } from '../GameManager';
 import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -27,18 +26,18 @@ export class GameScene extends Phaser.Scene {
 
     // Create bricks
     this.bricks = this.physics.add.staticGroup();
-    this.bricks.create(center.x, center.y, 'brick');
-    // const minX = 200;
-    // const brickWidth = 84;
-    // const minY = 75;
-    // const brickHeight = 60;
-    // for (let i = 0; i < 5; i++) {
-    //   const y = minY + i * brickHeight;
-    //   for (let j = 0; j < 5; j++) {
-    //     const x = minX + j * brickWidth;
-    //     this.bricks.create(x, y, 'brick');
-    //   }
-    // }
+    //this.bricks.create(center.x, center.y, 'brick');
+    const minX = 160;
+    const brickWidth = 84;
+    const minY = 75;
+    const brickHeight = 60;
+    for (let i = 0; i < 5; i++) {
+      const y = minY + i * brickHeight;
+      for (let j = 0; j < 5; j++) {
+        const x = minX + j * brickWidth;
+        this.bricks.create(x, y, 'brick');
+      }
+    }
 
     // Ball
     this.ball = this.physics.add
@@ -95,6 +94,9 @@ export class GameScene extends Phaser.Scene {
     this.ball.setVelocity(0);
     this.ball.setPosition(this.paddle.x, this.paddle.y - 50);
     this.ballOnPaddle = true;
+
+    // Fire ball lost event
+    this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });
   }
 
   private onHitBrick = (ball: Body, brick: Body) => {
