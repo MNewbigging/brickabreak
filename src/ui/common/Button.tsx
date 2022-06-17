@@ -11,7 +11,7 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = observer(({ text, onClick }) => {
   return (
     <div className='button' onClick={onClick}>
-      {text}
+      <div className='button-inner'>{text}</div>
     </div>
   );
 });
