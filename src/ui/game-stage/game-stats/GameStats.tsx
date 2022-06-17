@@ -2,8 +2,13 @@ import './game-stats.scss';
 
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+import { AppState } from '../../../AppState';
 
-export const GameStats: React.FC = observer(() => {
+interface GameStatsProps {
+  appState: AppState;
+}
+
+export const GameStats: React.FC<GameStatsProps> = observer(({ appState }) => {
   return (
     <div className='game-stats column'>
       <div className='top-frame'></div>
@@ -19,7 +24,9 @@ export const GameStats: React.FC = observer(() => {
           </div>
           <div className='combo column center'>
             <div>COMBO</div>
-            <div className='box combo-box'></div>
+            <div className='box combo-box row center'>
+              {appState?.gameState?.gameManager.comboBrickCount}
+            </div>
           </div>
         </div>
         <div className='powerups column center'>

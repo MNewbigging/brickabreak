@@ -12,7 +12,7 @@ export class AppState {
   public loading = true;
   public gameStarted = false;
   public rewardsState = ScreenState.CLOSED;
-  public gameState: GameState;
+  public gameState: GameState | undefined = undefined;
   public eventListener = new GameEventListener();
 
   constructor() {
@@ -24,6 +24,7 @@ export class AppState {
       startGame: action,
       rewardsState: observable,
       onStageEnd: action,
+      gameState: observable,
     });
 
     // Allow UI to mount

@@ -31,7 +31,7 @@ export const GameStage: React.FC<GameStageProps> = observer(({ appState }) => {
         </div>
       </div>
       <div className='stage-right'>
-        <GameStats />
+        <GameStats appState={appState} />
       </div>
     </div>
   );

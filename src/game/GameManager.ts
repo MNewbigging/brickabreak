@@ -1,3 +1,4 @@
+import { makeObservable, observable } from 'mobx';
 import { GameEventListener, GameEventType } from './listeners/GameEventListener';
 
 /**
@@ -16,6 +17,12 @@ export class GameManager {
   public comboBrickCount = 0;
 
   constructor(private eventListener: GameEventListener) {
+    makeObservable(this, {
+      currentStage: observable,
+      ballsRemaining: observable,
+      comboBrickCount: observable,
+    });
+
     eventListener.on(GameEventType.STAGE_START, this.onStartStage);
     eventListener.on(GameEventType.BALL_LOST, this.onBallLost);
     eventListener.on(GameEventType.BRICK_DESTROYED, this.onHitBrick);

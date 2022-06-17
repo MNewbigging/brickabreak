@@ -6,9 +6,10 @@ import { GameManager } from './GameManager';
 import { GameScene } from './scenes/GameScene';
 
 export class GameState {
+  public gameManager: GameManager;
+
   private game: Phaser.Game;
   private mainScene: GameScene;
-  private gameManager: GameManager;
 
   constructor(private eventListener: GameEventListener) {
     this.mainScene = new GameScene(eventListener);
