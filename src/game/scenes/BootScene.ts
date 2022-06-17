@@ -25,6 +25,7 @@ export class BootScene extends Phaser.Scene {
     const gameCenter = this.getGameCenter();
 
     // Create the loading screen
+    this.cameras.main.setBackgroundColor('#306082');
     this.startBtn = this.add.image(gameCenter.x, gameCenter.y, 'paddle');
 
     // Start the load operation for all game assets here
