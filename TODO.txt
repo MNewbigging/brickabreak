@@ -10,6 +10,3 @@ Things to track:
 - getRewards() - returns three reward choices (takes into account current modes and stage)
 - count of bricks hit with current ball
 
-
-
--- Aiming of ball before firing it

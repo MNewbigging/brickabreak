@@ -51,3 +51,22 @@ export class BrickLayer {
     return grid;
   }
 }
+
+/**
+ * To determine:
+ *
+ * (1) How to pass difficulty into layBricks
+ * - pass gameManager into GameScene
+ * - gameScene.onStageStart can call layBricks and pass difficulty from gameManager
+ *
+ *
+ * (2) Difficulty scaling in terms of brick laying
+ * - number of bricks
+ * - brick type
+ * - based on a number (stages cleared)
+ * - based on mods (more chance of tougher bricks?)
+ *
+ * (3) Brick laying in game scene
+ * - edge to edge?
+ * - what is the max in a row?
+ */
