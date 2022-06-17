@@ -12,7 +12,7 @@ interface RewardsScreenProps {
 export const RewardsScreen: React.FC<RewardsScreenProps> = observer(({ appState }) => {
   return (
     <div className={`rewards-screen ${appState.rewardsState}`}>
-      <div className='reward-cards'></div>
+      <div className='reward-cards'>GAME OVER SCORE TEST TEXT</div>
     </div>
   );
 });
