@@ -15,4 +15,11 @@
     height: 100%;
     min-width: 500px;
   }
+
+  .start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

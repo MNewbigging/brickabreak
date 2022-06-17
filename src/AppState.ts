@@ -9,6 +9,8 @@ export enum ScreenState {
 }
 
 export class AppState {
+  public loading = true;
+  public gameStarted = false;
   public rewardsState = ScreenState.CLOSED;
   public gameState: GameState;
   public eventListener = new GameEventListener();
@@ -16,8 +18,12 @@ export class AppState {
   constructor() {
     // UI cares about these props
     makeObservable(this, {
-      onStageEnd: action,
+      loading: observable,
+      onGameLoaded: action,
+      gameStarted: observable,
+      startGame: action,
       rewardsState: observable,
+      onStageEnd: action,
     });
 
     // Allow UI to mount
@@ -26,12 +32,25 @@ export class AppState {
 
   public setupGame() {
     // Register for any game events
+    this.eventListener.on(GameEventType.GAME_LOADED, this.onGameLoaded);
     this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
     // Create game state and start
     this.gameState = new GameState(this.eventListener);
     this.gameState.setup();
   }
+
+  public startGame = () => {
+    // Fire event to start game
+    this.eventListener.fireEvent({ type: GameEventType.GAME_START });
+
+    // Game has now started
+    this.gameStarted = true;
+  };
+
+  public onGameLoaded = () => {
+    this.loading = false;
+  };
 
   public onStageEnd = () => {
     console.log('app state stage end');

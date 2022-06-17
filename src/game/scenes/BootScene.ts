@@ -4,6 +4,7 @@ import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
 
 import { Vec2 } from '../utils/Vec2';
+import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 
 /**
  * This is the main loading screen for the game. It loads all the game assets
@@ -12,8 +13,10 @@ import { Vec2 } from '../utils/Vec2';
 export class BootScene extends Phaser.Scene {
   private startBtn: Phaser.GameObjects.Image;
 
-  constructor() {
+  constructor(private eventListener: GameEventListener) {
     super({ key: 'BootScene' });
+
+    eventListener.on(GameEventType.GAME_START, this.onStart);
   }
 
   public preload() {
@@ -26,7 +29,7 @@ export class BootScene extends Phaser.Scene {
 
     // Create the loading screen
     this.cameras.main.setBackgroundColor('#306082');
-    this.startBtn = this.add.image(gameCenter.x, gameCenter.y, 'paddle');
+    //this.startBtn = this.add.image(gameCenter.x, gameCenter.y, 'paddle');
 
     // Start the load operation for all game assets here
     this.load.once('complete', this.onLoad);
@@ -38,15 +41,12 @@ export class BootScene extends Phaser.Scene {
   }
 
   private onLoad = () => {
-    console.log('loaded all assets');
-
-    this.startBtn.setInteractive();
-    this.startBtn.once('pointerup', this.onStart);
+    this.eventListener.fireEvent({ type: GameEventType.GAME_LOADED });
+    // this.startBtn.setInteractive();
+    // this.startBtn.once('pointerup', this.onStart);
   };
 
   private onStart = () => {
-    console.log('start game');
-
     this.scene.start('GameScene');
   };
 

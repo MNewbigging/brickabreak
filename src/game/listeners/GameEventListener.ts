@@ -1,19 +1,23 @@
 export enum GameEventType {
+  GAME_LOADED = 'game-loaded',
+  GAME_START = 'start-game',
+  GAME_OVER = 'game-over',
   BRICK_HIT = 'brick-hit',
   BRICK_DESTROYED = 'brick-destroyed',
   BALL_LOST = 'ball-lost',
   STAGE_START = 'stage-start',
   STAGE_END = 'stage-end',
-  GAME_OVER = 'game-over',
 }
 
 export type GameEvent<T extends GameEventType> = Extract<
+  | { type: GameEventType.GAME_LOADED }
+  | { type: GameEventType.GAME_START }
+  | { type: GameEventType.GAME_OVER }
   | { type: GameEventType.BRICK_HIT }
   | { type: GameEventType.BRICK_DESTROYED }
   | { type: GameEventType.BALL_LOST }
   | { type: GameEventType.STAGE_START }
-  | { type: GameEventType.STAGE_END }
-  | { type: GameEventType.GAME_OVER },
+  | { type: GameEventType.STAGE_END },
   { type: T }
 >;
 

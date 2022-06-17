@@ -20,7 +20,7 @@ export class GameState {
     this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
     // Create the boot scene here (nothing to track for later)
-    const bootScene = new BootScene();
+    const bootScene = new BootScene(this.eventListener);
 
     // Create the Phaser game object
     const config: Phaser.Types.Core.GameConfig = {
