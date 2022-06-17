@@ -7,8 +7,13 @@
   height: 95%;
 
   border: 2px solid green;
+  background-color: white;
 
   transition: all 0.75s ease-in-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.open {
     transform: translateY(0);
@@ -16,5 +21,11 @@
 
   &.closed {
     transform: translateY(-200%);
+  }
+
+  .reward-cards {
+    flex: 0 0 90%;
+    height: 60%;
+    border: 1px solid black;
   }
 }
