@@ -1,13 +1,30 @@
 import './game-stage.scss';
 
 import React from 'react';
+import { observer } from 'mobx-react-lite';
+import { AppState } from '../../AppState';
+import { Button } from '../common/Button';
 
-export const GameStage: React.FC = () => {
+interface GameStageProps {
+  appState: AppState;
+}
+
+export const GameStage: React.FC<GameStageProps> = observer(({ appState }) => {
   return (
     <div className='game-stage'>
       <div className='stage-left'>
         <div className='stage-left-inner'>
           <div className='game-frame'>
+            {/* Show loading/start button at start of game */}
+            {!appState.gameStarted && (
+              <div className='start-button'>
+                <Button
+                  text={appState.loading ? 'Loading...' : 'Start'}
+                  onClick={appState.startGame}
+                  disabled={appState.loading}
+                />
+              </div>
+            )}
             <div id='game-mount'></div>
           </div>
         </div>
@@ -15,4 +32,4 @@ export const GameStage: React.FC = () => {
       <div className='stage-right'>brick image goes here</div>
     </div>
   );
-};
+});
