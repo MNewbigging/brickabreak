@@ -15,6 +15,7 @@ export class GameManager {
   public currentStage = 1;
   public ballsRemaining = 3;
   public comboBrickCount = 0;
+  public score = 0;
 
   constructor(private eventListener: GameEventListener) {
     makeObservable(this, {

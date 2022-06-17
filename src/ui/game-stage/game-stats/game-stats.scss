@@ -31,7 +31,7 @@ $boxHeight: 45px;
       justify-content: space-evenly;
 
       .level {
-        flex: 0 0 40%;
+        flex: 0 0 31%;
 
         .level-box {
           width: 100%;
@@ -40,9 +40,18 @@ $boxHeight: 45px;
       }
 
       .combo {
-        flex: 0 0 40%;
+        flex: 0 0 31%;
 
         .combo-box {
+          width: 100%;
+          height: $boxHeight;
+        }
+      }
+
+      .lives {
+        flex: 0 0 31%;
+
+        .lives-box {
           width: 100%;
           height: $boxHeight;
         }

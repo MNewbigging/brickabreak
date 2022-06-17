@@ -83,6 +83,7 @@ export class GameScene extends Phaser.Scene {
     // Update ball position if attached to paddle
     if (this.ballOnPaddle) {
       this.ball.x = this.paddle.x;
+      this.ball.y = this.paddle.y - 50;
     }
     // Otherwise check if ball is out of lower bounds
     if (this.ball.y > this.gameSize.y + 100) {
