@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+import { Brick, BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { Vec2 } from '../utils/Vec2';
 
@@ -19,6 +20,8 @@ export class GameScene extends Phaser.Scene {
 
   constructor(private eventListener: GameEventListener) {
     super({ key: 'GameScene' });
+
+    eventListener.on(GameEventType.STAGE_START, this.onStageStart);
   }
 
   public create() {
@@ -28,20 +31,9 @@ export class GameScene extends Phaser.Scene {
     // Enable world bounds, but disable floor
     this.physics.world.setBoundsCollision(true, true, true, false);
 
-    // Create bricks
+    // Bricks
     this.bricks = this.physics.add.staticGroup();
-    //this.bricks.create(center.x, center.y, 'brick');
-    const minX = 160;
-    const brickWidth = 84;
-    const minY = 75;
-    const brickHeight = 60;
-    for (let i = 0; i < 5; i++) {
-      const y = minY + i * brickHeight;
-      for (let j = 0; j < 5; j++) {
-        const x = minX + j * brickWidth;
-        this.bricks.create(x, y, 'brick');
-      }
-    }
+    this.onStageStart();
 
     // Ball
     this.ball = this.physics.add
@@ -80,6 +72,54 @@ export class GameScene extends Phaser.Scene {
       }
     });
   }
+
+  public onStageStart = () => {
+    // // Create bricks
+    // this.bricks = this.physics.add.staticGroup({
+    //   key: 'bricks',
+    //   frame: ['brick-red', 'brick-pink', 'brick-purple', 'brick-algae', 'brick-lime', 'brick-blue'],
+    //   frameQuantity: 10,
+    //   gridAlign: {
+    //     width: 10,
+    //     height: 6,
+    //     //position: Phaser.Display.Align.CENTER,
+    //     cellWidth: 64,
+    //     cellHeight: 32,
+    //     x: 100,
+    //     y: 100,
+    //   },
+    // });
+    // this.bricks.scaleXY(1, 1);
+
+    // Get the bricks to create for this stage
+    const bricks: Brick[][] = BrickLayer.layBricks();
+
+    // Create bricks
+    const minX = 160;
+    const brickWidth = 84;
+    const minY = 75;
+    const brickHeight = 60;
+    bricks.forEach((row) => {
+      //
+      row.forEach((brick) => {});
+    });
+
+    // Reset paddle and ball position
+
+    // Go
+
+    // const minX = 160;
+    // const brickWidth = 84;
+    // const minY = 75;
+    // const brickHeight = 60;
+    // for (let i = 0; i < 5; i++) {
+    //   const y = minY + i * brickHeight;
+    //   for (let j = 0; j < 5; j++) {
+    //     const x = minX + j * brickWidth;
+    //     this.bricks.create(x, y, 'brick');
+    //   }
+    // }
+  };
 
   public update(time: number, delta: number): void {
     // Update ball position if attached to paddle

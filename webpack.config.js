@@ -33,7 +33,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|ttf)$/i,
+        test: /\.(png|jpe?g|gif|ttf|json)$/i,
         use: 'file-loader?name=[name].[ext]&outputPath=./assets/',
       },
       {

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import blueboard from '/assets/blueboard.png';
 import brickAtlas from '/assets/brickAtlas.png';
+import brickAtlasJson from '/assets/brickAtlas.json';
 import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
 
@@ -31,6 +32,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('paddle', blueboard);
     this.load.image('ball', evilball);
     this.load.image('brick', whitebrick);
+    this.load.atlas('bricks', brickAtlas, brickAtlasJson);
 
     this.load.start();
   }

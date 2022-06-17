@@ -18,7 +18,6 @@ export class GameState {
 
   public setup() {
     // Register to game events
-    this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
     // Create the boot scene here (nothing to track for later)
     const bootScene = new BootScene(this.eventListener);
@@ -39,8 +38,4 @@ export class GameState {
 
     this.game = new Phaser.Game(config);
   }
-
-  private onStageEnd = () => {
-    // Can start loading the next scene
-  };
 }

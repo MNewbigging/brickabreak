@@ -33,11 +33,8 @@ export class GameManager {
     eventListener.on(GameEventType.BRICK_DESTROYED, this.onHitBrick);
   }
 
-  public getTotalStagesCleared() {
-    return this.currentStage - 1;
-  }
-
   public onStartStage = () => {
+    // Increase stage count
     this.currentStage++;
   };
 
