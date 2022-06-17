@@ -94,31 +94,22 @@ export class GameScene extends Phaser.Scene {
     // Get the bricks to create for this stage
     const bricks: Brick[][] = BrickLayer.layBricks();
 
+    const brickWidth = 20;
+    const brickHeight = 16;
+
+    // Center values
+    const rowLength = bricks[0].length;
+    const minX = (this.gameSize.x - rowLength * brickWidth) / 2;
+    const minY = 50;
+
     // Create bricks
-    const minX = 160;
-    const brickWidth = 84;
-    const minY = 75;
-    const brickHeight = 60;
-    bricks.forEach((row) => {
-      //
-      row.forEach((brick) => {});
+    bricks.forEach((row, rIdx) => {
+      const y = minY + rIdx * brickHeight;
+      row.forEach((brick, bIdx) => {
+        const x = minX + bIdx * brickWidth;
+        this.bricks.create(x, y, 'bricks', brick);
+      });
     });
-
-    // Reset paddle and ball position
-
-    // Go
-
-    // const minX = 160;
-    // const brickWidth = 84;
-    // const minY = 75;
-    // const brickHeight = 60;
-    // for (let i = 0; i < 5; i++) {
-    //   const y = minY + i * brickHeight;
-    //   for (let j = 0; j < 5; j++) {
-    //     const x = minX + j * brickWidth;
-    //     this.bricks.create(x, y, 'brick');
-    //   }
-    // }
   };
 
   public update(time: number, delta: number): void {
@@ -133,6 +124,9 @@ export class GameScene extends Phaser.Scene {
 
     // Otherwise check if ball is out of lower bounds
     if (this.ball.y > this.gameSize.y + 100) {
+      // Fire ball lost event
+      this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });
+      // Reset ball
       this.resetBall();
     }
   }
@@ -165,9 +159,6 @@ export class GameScene extends Phaser.Scene {
     this.aimLine.visible = true;
     this.aimLine.x = this.ball.x;
     this.aimLine.y = this.ball.y;
-
-    // Fire ball lost event
-    this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });
   }
 
   private fireBall() {
