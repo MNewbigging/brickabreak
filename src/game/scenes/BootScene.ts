@@ -23,7 +23,7 @@ export class BootScene extends Phaser.Scene {
 
   public create() {
     // Create the loading screen
-    this.cameras.main.setBackgroundColor('#306082');
+    this.cameras.main.setBackgroundColor('#323c39');
 
     // Start the load operation for all game assets here
     this.load.once('complete', this.onLoad);

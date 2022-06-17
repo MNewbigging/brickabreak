@@ -1,13 +1,16 @@
+@import '../../styles/palette.scss';
+
 .rewards-screen {
   position: absolute;
+  z-index: 100; // so it sits above canvas
 
   // This blocks mouse over game canvas - which is good, so
   // it should totally cover playable area
   width: 60%;
   height: 95%;
 
-  border: 2px solid green;
-  background-color: white;
+  border: 15px solid $borderDark;
+  background-color: $bluePrimary;
 
   transition: all 0.75s ease-in-out;
 
