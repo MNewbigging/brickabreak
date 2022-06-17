@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { AppState } from './AppState';
 import { RewardsScreen } from './ui/rewards/RewardsScreen';
 import { Button } from './ui/common/Button';
+import { GameStage } from './ui/game-stage/GameStage';
 
 interface AppProps {
   appState: AppState;
@@ -28,7 +29,8 @@ export const App: React.FC<AppProps> = observer(({ appState }) => {
         </div>
       )}
       <RewardsScreen appState={appState} />
-      <div id='game-stage'></div>
+      <GameStage />
+      {/* <div id='game-stage'></div> */}
     </div>
   );
 });

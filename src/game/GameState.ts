@@ -26,10 +26,10 @@ export class GameState {
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       scale: {
-        parent: 'game-stage',
+        parent: 'game-mount',
         mode: Phaser.Scale.RESIZE,
       },
-      backgroundColor: '#f2f2f2',
+      backgroundColor: '#323C39',
       scene: [bootScene, this.mainScene],
       physics: {
         default: 'arcade',
