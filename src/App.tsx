@@ -20,7 +20,11 @@ export const App: React.FC<AppProps> = observer(({ appState }) => {
       {/* Show loading/start button at start of game */}
       {!appState.gameStarted && (
         <div className='start-button'>
-          <Button text={appState.loading ? 'Loading...' : 'Start'} onClick={appState.startGame} />
+          <Button
+            text={appState.loading ? 'Loading...' : 'Start'}
+            onClick={appState.startGame}
+            disabled={appState.loading}
+          />
         </div>
       )}
       <RewardsScreen appState={appState} />

@@ -1,18 +1,25 @@
 @import '../../styles/palette.scss';
 
 .button {
-  cursor: pointer;
+  user-select: none;
   padding: 5px;
   border: 3px solid $blueSecondary;
   background-color: $bluePrimary;
   color: white;
 
+  &.enabled {
+    cursor: pointer;
+    .button-inner:hover {
+      border-style: groove;
+    }
+  }
+
+  &.disabled {
+    color: rgb(160, 160, 160);
+  }
+
   .button-inner {
     padding: 5px 15px;
     border: 5px solid $blueSecondary;
-
-    &:hover {
-      border-style: groove;
-    }
   }
 }

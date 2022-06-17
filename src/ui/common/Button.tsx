@@ -6,11 +6,15 @@ import { observer } from 'mobx-react-lite';
 interface ButtonProps {
   text: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = observer(({ text, onClick }) => {
+export const Button: React.FC<ButtonProps> = observer(({ text, onClick, disabled }) => {
+  const disabledClass = disabled ? 'disabled' : 'enabled';
+  const buttonClasses = ['button', disabledClass];
+
   return (
-    <div className='button' onClick={onClick}>
+    <div className={buttonClasses.join(' ')} onClick={onClick}>
       <div className='button-inner'>{text}</div>
     </div>
   );
