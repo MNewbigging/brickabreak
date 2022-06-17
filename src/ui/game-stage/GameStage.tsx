@@ -3,7 +3,8 @@ import './game-stage.scss';
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { AppState } from '../../AppState';
-import { Button } from '../common/Button';
+import { Button } from '../common/button/Button';
+import { GameStats } from './game-stats/GameStats';
 
 interface GameStageProps {
   appState: AppState;
@@ -29,7 +30,9 @@ export const GameStage: React.FC<GameStageProps> = observer(({ appState }) => {
           </div>
         </div>
       </div>
-      <div className='stage-right'>brick image goes here</div>
+      <div className='stage-right'>
+        <GameStats />
+      </div>
     </div>
   );
 });

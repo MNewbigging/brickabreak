@@ -1,0 +1,61 @@
+@import '../../../styles/palette.scss';
+
+$boxHeight: 45px;
+
+.game-stats {
+  .top-frame {
+    flex: 0 0 auto;
+    width: 100%;
+    // put image here
+  }
+
+  .main-frame {
+    flex: 1 1 300px;
+    width: 100%;
+
+    gap: 10px;
+
+    .score {
+      width: 100%;
+
+      .score-box {
+        width: 90%;
+        height: $boxHeight;
+      }
+    }
+
+    .level-combo-frame {
+      width: 100%;
+
+      display: flex;
+      justify-content: space-evenly;
+
+      .level {
+        flex: 0 0 40%;
+
+        .level-box {
+          width: 100%;
+          height: $boxHeight;
+        }
+      }
+
+      .combo {
+        flex: 0 0 40%;
+
+        .combo-box {
+          width: 100%;
+          height: $boxHeight;
+        }
+      }
+    }
+
+    .powerups {
+      width: 100%;
+
+      .powerups-box {
+        width: 90%;
+        height: $boxHeight;
+      }
+    }
+  }
+}

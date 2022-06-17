@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import blueboard from '/assets/blueboard.png';
 import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
+import brickAtlas from '/assets/brickAtlas.png';
 
 import { Vec2 } from '../utils/Vec2';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
@@ -22,8 +23,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   public create() {
-    // Create the loading screen
-    this.cameras.main.setBackgroundColor('#323c39');
+    // Create the loading screen - empty for now
 
     // Start the load operation for all game assets here
     this.load.once('complete', this.onLoad);

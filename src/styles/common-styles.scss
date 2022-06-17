@@ -1,0 +1,16 @@
+@import './palette.scss';
+
+.box {
+  border: 5px ridge $blueAccent;
+  background-color: $blueDark;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
