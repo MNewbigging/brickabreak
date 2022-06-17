@@ -6,29 +6,35 @@
 
   // This blocks mouse over game canvas - which is good, so
   // it should totally cover playable area
-  width: 60%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
 
   border: 15px solid $borderDark;
   background-color: $bluePrimary;
 
-  transition: all 0.75s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
 
   &.open {
-    transform: translateY(0);
+    transform: scale(1);
   }
 
   &.closed {
-    transform: translateY(-200%);
+    transform: scale(0);
   }
 
   .reward-cards {
-    flex: 0 0 90%;
-    height: 60%;
+    flex: 0 0 50%;
+    width: 100%;
     border: 1px solid black;
+
+    justify-content: space-evenly;
+
+    .reward {
+      cursor: pointer;
+    }
   }
 }

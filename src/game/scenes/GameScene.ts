@@ -91,6 +91,11 @@ export class GameScene extends Phaser.Scene {
     // });
     // this.bricks.scaleXY(1, 1);
 
+    // Quick brick
+    const center = this.getGameCenter();
+    this.bricks.create(center.x, center.y, 'bricks', 'brick-red');
+    return;
+
     // Get the bricks to create for this stage
     const bricks: Brick[][] = BrickLayer.layBricks();
 

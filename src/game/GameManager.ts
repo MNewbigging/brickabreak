@@ -3,14 +3,7 @@ import { action, makeObservable, observable } from 'mobx';
 import { GameEventListener, GameEventType } from './listeners/GameEventListener';
 
 /**
- * The game manager tracks stages, ball count, stats and mods throughout the game.
- *
- * !! Can this operate totally via events?
- * - the game scene needs direct access to ballsRemaining... or does it?
- * - ball goes down, fire event 'lost ball'
- * - GM picks up and ball count is now 0 - fires 'game over' event
- * - this is all synchronous so game isn't continuing at this point
- *
+ * The game manager tracks stages, ball count, stats and mods throughout the game
  */
 export class GameManager {
   public currentStage = 1;

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 import { BootScene } from './scenes/BootScene';
-import { GameEventListener, GameEventType } from './listeners/GameEventListener';
+import { GameEventListener } from './listeners/GameEventListener';
 import { GameManager } from './GameManager';
 import { GameScene } from './scenes/GameScene';
 
