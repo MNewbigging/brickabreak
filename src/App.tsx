@@ -10,19 +10,14 @@ interface AppProps {
   appState: AppState;
 }
 /**
- * App is the entry level, higher-order component that renders the current screen.
+ * App is the entry level, higher-order component which renders the parent div for the
+ * game canvas, as well as the dialogs.
  */
 export const App: React.FC<AppProps> = observer(({ appState }) => {
-  /**
-   * The game screen just holds the area for the canvas. This should actually always be shown,
-   * because we're losing the main menu screen in place of a loading scene within the game -
-   * so the game is always running, UI is just shown on top of it (dialog style).
-   */
-
   return (
-    <>
+    <div className='game-root'>
       <RewardsScreen appState={appState} />
       <div id='game-stage'></div>
-    </>
+    </div>
   );
 });
