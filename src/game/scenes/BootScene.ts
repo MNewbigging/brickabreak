@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import blueboard from '/assets/blueboard.png';
+import brickAtlas from '/assets/brickAtlas.png';
 import evilball from '/assets/evilball.png';
 import whitebrick from '/assets/whitebrick.png';
-import brickAtlas from '/assets/brickAtlas.png';
 
-import { Vec2 } from '../utils/Vec2';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
+import { Vec2 } from '../utils/Vec2';
 
 /**
  * This is the main loading screen for the game. It loads all the game assets

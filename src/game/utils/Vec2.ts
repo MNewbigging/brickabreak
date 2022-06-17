@@ -5,16 +5,29 @@ export class Vec2 {
     const length = Vec2.getLength(this);
     this.x /= length;
     this.y /= length;
+
+    return this;
   }
 
   public multiplyScalar(scalar: number) {
     this.x *= scalar;
     this.y *= scalar;
+
+    return this;
+  }
+
+  public add(v: Vec2) {
+    this.x += v.x;
+    this.y += v.y;
+
+    return this;
   }
 
   public sub(v: Vec2) {
     this.x -= v.x;
     this.y -= v.y;
+
+    return this;
   }
 
   // STATICS

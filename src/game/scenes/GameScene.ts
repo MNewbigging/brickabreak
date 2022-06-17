@@ -5,6 +5,7 @@ import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 type BrickGroup = Phaser.Physics.Arcade.StaticGroup;
+type Line = Phaser.GameObjects.Line;
 
 export class GameScene extends Phaser.Scene {
   private gameSize: Vec2;
@@ -12,6 +13,9 @@ export class GameScene extends Phaser.Scene {
   private ballOnPaddle = true;
   private ball: Body;
   private paddle: Body;
+  private aimLine: Line;
+  private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  private baseSpeed = 300;
 
   constructor(private eventListener: GameEventListener) {
     super({ key: 'GameScene' });
@@ -49,11 +53,16 @@ export class GameScene extends Phaser.Scene {
     // Paddle
     this.paddle = this.physics.add.image(center.x, this.gameSize.y - 50, 'paddle').setImmovable();
 
+    // Aiming line
+    this.aimLine = this.add.line(0, 0, 0, -20, 0, -50, 0xffffff).setOrigin(0);
+
     // Colliders
     this.physics.add.collider(this.ball, this.bricks, this.onHitBrick);
     this.physics.add.collider(this.ball, this.paddle, this.onHitPaddle);
 
     // Input
+    this.cursors = this.input.keyboard.createCursorKeys();
+
     const paddleHalfWidth = this.paddle.width / 2;
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       // Keep paddle in bounds
@@ -67,23 +76,19 @@ export class GameScene extends Phaser.Scene {
     this.input.on('pointerup', () => {
       // Fire ball if still attached to paddle
       if (this.ballOnPaddle) {
-        this.ball.setVelocity(-75, -300);
-        this.ballOnPaddle = false;
+        this.fireBall();
       }
     });
-
-    this.scale.on('resize', this.resize);
   }
-
-  public resize = () => {
-    console.log('resize');
-  };
 
   public update(time: number, delta: number): void {
     // Update ball position if attached to paddle
     if (this.ballOnPaddle) {
       this.ball.x = this.paddle.x;
       this.ball.y = this.paddle.y - 50;
+
+      // Also update the line pos
+      this.updateAimLine();
     }
     // Otherwise check if ball is out of lower bounds
     if (this.ball.y > this.gameSize.y + 100) {
@@ -91,13 +96,60 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
+  private updateAimLine() {
+    // Left and right arrows change line angle
+    if (this.cursors.left.isDown) {
+      this.aimLine.rotation -= 0.02;
+    } else if (this.cursors.right.isDown) {
+      this.aimLine.rotation += 0.02;
+    }
+
+    // Keep line rotation within bounds
+    this.aimLine.rotation = Phaser.Math.Clamp(
+      this.aimLine.rotation,
+      -Math.PI / 2 + 0.5,
+      Math.PI / 2 - 0.5
+    );
+
+    // Line starts at ball's position
+    // Line end is based on ball's velocity-to-be
+    // const lineLength = 50;
+    // const aimTarget = new Vec2(this.ball.x, this.ball.y)
+    //   .sub(this.aimAngle.normalize().multiplyScalar(lineLength))
+    //   .sub(new Vec2(this.ball.x, this.ball.y));
+    // this.aimLine.setTo(0, -20, aimTarget.x, aimTarget.y);
+
+    this.aimLine.x = this.ball.x;
+    this.aimLine.y = this.ball.y;
+  }
+
   private resetBall() {
+    // Move ball above paddle and stop it moving
     this.ball.setVelocity(0);
     this.ball.setPosition(this.paddle.x, this.paddle.y - 50);
     this.ballOnPaddle = true;
 
+    // Show the aiming line
+    this.aimLine.visible = true;
+
     // Fire ball lost event
     this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });
+  }
+
+  private fireBall() {
+    // Get direction from aim line, scale by starting speed
+    const dir = new Vec2(
+      Math.cos(this.aimLine.rotation - Math.PI / 2),
+      Math.sin(this.aimLine.rotation - Math.PI / 2)
+    ).multiplyScalar(this.baseSpeed);
+
+    // Apply new velocity to ball
+    this.ball.setVelocity(dir.x, dir.y);
+
+    // Ball no longer on paddle, reset and hide aim line
+    this.ballOnPaddle = false;
+    this.aimLine.visible = false;
+    this.aimLine.rotation = 0;
   }
 
   private onHitBrick = (ball: Body, brick: Body) => {

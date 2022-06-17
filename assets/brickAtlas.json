@@ -1,0 +1,210 @@
+{ "frames": {
+   "brickAtlas 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 1.aseprite": {
+    "frame": { "x": 21, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 2.aseprite": {
+    "frame": { "x": 42, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 3.aseprite": {
+    "frame": { "x": 63, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 4.aseprite": {
+    "frame": { "x": 84, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 5.aseprite": {
+    "frame": { "x": 105, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 6.aseprite": {
+    "frame": { "x": 126, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 7.aseprite": {
+    "frame": { "x": 147, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 8.aseprite": {
+    "frame": { "x": 168, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 9.aseprite": {
+    "frame": { "x": 189, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 10.aseprite": {
+    "frame": { "x": 210, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 11.aseprite": {
+    "frame": { "x": 231, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 12.aseprite": {
+    "frame": { "x": 252, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 13.aseprite": {
+    "frame": { "x": 273, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 14.aseprite": {
+    "frame": { "x": 294, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 15.aseprite": {
+    "frame": { "x": 315, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 16.aseprite": {
+    "frame": { "x": 336, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 17.aseprite": {
+    "frame": { "x": 357, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 18.aseprite": {
+    "frame": { "x": 378, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 19.aseprite": {
+    "frame": { "x": 399, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 20.aseprite": {
+    "frame": { "x": 420, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 21.aseprite": {
+    "frame": { "x": 441, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 22.aseprite": {
+    "frame": { "x": 462, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   },
+   "brickAtlas 23.aseprite": {
+    "frame": { "x": 483, "y": 0, "w": 21, "h": 15 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 21, "h": 15 },
+    "sourceSize": { "w": 21, "h": 15 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.35-x64",
+  "image": "brickAtlas.png",
+  "format": "RGBA8888",
+  "size": { "w": 504, "h": 15 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

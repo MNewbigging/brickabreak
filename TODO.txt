@@ -1,5 +1,4 @@
-- create the loading scene:
--- start button begins the first game
+
 
 - GameScene needs to know what bricks to load for that stage
 -- some kind of game manager to track stages to know what to build for next stage
@@ -11,6 +10,6 @@ Things to track:
 - getRewards() - returns three reward choices (takes into account current modes and stage)
 - count of bricks hit with current ball
 
--- Get the top left/ bottom left kenney font in 
+
 
 -- Aiming of ball before firing it
