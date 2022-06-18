@@ -21,7 +21,6 @@ export class GameScene extends Phaser.Scene {
   private ball: Body;
   private ballPaddleOffset = -30;
   private paddle: Body;
-  private paddleHalfWidth = 0;
   private aimLine: Line;
   private baseBallSpeed = 300;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -42,7 +41,6 @@ export class GameScene extends Phaser.Scene {
 
     // Bricks
     this.brickBodies = this.physics.add.staticGroup();
-    this.onStageStart();
 
     // Ball
     this.ball = this.physics.add
@@ -53,7 +51,6 @@ export class GameScene extends Phaser.Scene {
 
     // Paddle
     this.paddle = this.physics.add.image(center.x, this.gameSize.y - 50, 'paddle').setImmovable();
-    this.paddleHalfWidth = this.paddle.width / 2;
 
     // Aiming line
     this.aimLine = this.add.line(0, 0, 0, -20, 0, -50, 0xffffff).setOrigin(0);
@@ -76,9 +73,20 @@ export class GameScene extends Phaser.Scene {
         this.fireBall();
       }
     });
+
+    // First time this runs, do stage setup manually
+    this.onStageStart();
   }
 
-  public onStageStart = () => {
+  private onStageStart = () => {
+    // Create the bricks for this level
+    this.buildBricks();
+
+    // Ensure gm values are up to date
+    this.paddle.scaleX = this.gameManager.paddleWidthScale;
+  };
+
+  private buildBricks() {
     // Clear any previous brick data
     this.bricks.clear();
     this.brickBodies.clear();
@@ -117,7 +125,7 @@ export class GameScene extends Phaser.Scene {
         this.cracks.set(brick.id, crack);
       });
     });
-  };
+  }
 
   public update(time: number, delta: number): void {
     // Update paddle
@@ -147,16 +155,16 @@ export class GameScene extends Phaser.Scene {
     const margin = this.gameManager.paddleSpeed / 20;
     let diff = Math.abs(offset) < margin ? 0 : Math.sign(offset);
 
-    const rightEdge = this.gameSize.x - this.paddleHalfWidth;
+    const rightEdge = this.gameSize.x - this.paddle.body.halfWidth;
 
     // If exactly at left edge and trying to go left
-    if (this.paddle.x === this.paddleHalfWidth && diff === -1) {
+    if (this.paddle.x === this.paddle.body.halfWidth && diff === -1) {
       // Cannot go left
       diff = 0;
     }
     // If beyond left edge, go bak
-    else if (this.paddle.x < this.paddleHalfWidth) {
-      this.paddle.x = this.paddleHalfWidth;
+    else if (this.paddle.x < this.paddle.body.halfWidth) {
+      this.paddle.x = this.paddle.body.halfWidth;
       // todo don't think this does anything
       //this.paddleTargetPos = this.paddle.x;
       diff = 0;
@@ -167,7 +175,7 @@ export class GameScene extends Phaser.Scene {
     }
     // If beyond right edge, go back
     else if (this.paddle.x > rightEdge) {
-      this.paddle.x = this.gameSize.x - this.paddleHalfWidth;
+      this.paddle.x = this.gameSize.x - this.paddle.body.halfWidth;
       //this.paddleTargetPos = this.paddle.x;
       diff = 0;
     }

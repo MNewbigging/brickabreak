@@ -12,10 +12,12 @@ export class AppState {
   public loading = true;
   public gameStarted = false;
   public rewardsState = ScreenState.CLOSED;
-  public gameState: GameState | undefined = undefined;
+  public gameState: GameState;
   public eventListener = new GameEventListener();
 
   constructor() {
+    this.gameState = new GameState(this.eventListener);
+
     // UI cares about these props
     makeObservable(this, {
       loading: observable,
@@ -24,6 +26,7 @@ export class AppState {
       startGame: action,
       rewardsState: observable,
       onStageEnd: action,
+      onStageStart: action,
       gameState: observable,
     });
 
@@ -34,11 +37,11 @@ export class AppState {
   public setupGame() {
     // Register for any game events
     this.eventListener.on(GameEventType.GAME_LOADED, this.onGameLoaded);
+    this.eventListener.on(GameEventType.STAGE_START, this.onStageStart);
     this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
     // Create game state and start
-    this.gameState = new GameState(this.eventListener);
-    this.gameState.setup();
+    this.gameState.start();
   }
 
   public startGame = () => {
@@ -53,9 +56,11 @@ export class AppState {
     this.loading = false;
   };
 
-  public onStageEnd = () => {
-    // Get the rewards to show
+  public onStageStart = () => {
+    this.rewardsState = ScreenState.CLOSED;
+  };
 
+  public onStageEnd = () => {
     // Show rewards screen
     this.rewardsState = ScreenState.OPEN;
   };

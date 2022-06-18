@@ -16,7 +16,7 @@ export class GameState {
     this.mainScene = new GameScene(eventListener, this.gameManager);
   }
 
-  public setup() {
+  public start() {
     // Register to game events
 
     // Create the boot scene here (nothing to track for later)

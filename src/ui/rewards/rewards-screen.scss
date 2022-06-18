@@ -29,12 +29,17 @@
   .reward-cards {
     flex: 0 0 50%;
     width: 100%;
-    border: 1px solid black;
 
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     .reward {
       cursor: pointer;
+      transition: all 0.1s linear;
+      transform: scale(1);
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
 }

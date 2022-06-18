@@ -7,14 +7,18 @@ import { GameMod } from './mods/GameMod';
  * The game manager tracks stages, ball count, stats and mods throughout the game
  */
 export class GameManager {
+  // Game stats
   public currentStage = 1;
   public ballsRemaining = 10;
   public comboBrickCount = 0;
   public score = 0;
+  public activeMods: GameMod[] = [];
+  // Paddle stats
   public paddleSpeed = 300;
-  // Speed added to ball when it hits a brick
-  public ballSpeedMod = 10;
-  public mods: GameMod[] = [];
+  public paddleWidthScale = 1; // this is a scale value
+  // Ball stats
+  public ballSpeedMod = 10; // Speed added to ball when it hits a brick
+  // For reward screen
   public rewardMods: GameMod[] = [];
 
   constructor(private eventListener: GameEventListener) {
@@ -30,6 +34,7 @@ export class GameManager {
     });
 
     eventListener.on(GameEventType.STAGE_START, this.onStageStart);
+    eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
     eventListener.on(GameEventType.BALL_LOST, this.onBallLost);
     eventListener.on(GameEventType.BRICK_DESTROYED, this.onHitBrick);
   }
@@ -60,6 +65,24 @@ export class GameManager {
     // Reset combo brick count
     this.comboBrickCount = 0;
   };
+
+  public chooseReward(rewardMod: GameMod) {
+    // Add reward as active
+    this.activeMods.push(rewardMod);
+
+    // Apply mod effect
+    switch (rewardMod) {
+      case GameMod.PADDLE_SPEED_INCREASE:
+        this.paddleSpeed += 100;
+        break;
+      case GameMod.PADDLE_WIDTH_INCREASE:
+        this.paddleWidthScale += 0.5;
+        break;
+    }
+
+    // Can now start the next stage
+    this.eventListener.fireEvent({ type: GameEventType.STAGE_START });
+  }
 
   private getRewards() {
     const allRewards = Object.values(GameMod);

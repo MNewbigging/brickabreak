@@ -4,20 +4,32 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { AppState } from '../../AppState';
+import { GameMod } from '../../game/mods/GameMod';
 
 interface RewardsScreenProps {
   appState: AppState;
 }
 
 export const RewardsScreen: React.FC<RewardsScreenProps> = observer(({ appState }) => {
+  const gm = appState.gameState.gameManager;
+  const rewards = gm.rewardMods;
+
+  const renderReward = (rewardMod: GameMod) => {
+    return (
+      <div className='reward' onClick={() => gm.chooseReward(rewardMod)}>
+        {rewardMod.toString()}
+      </div>
+    );
+  };
+
   return (
     <div className={`rewards-screen ${appState.rewardsState} column center`}>
       <div>Good Job!</div>
       <div>Choose one</div>
       <div className='reward-cards row center'>
-        <div className='reward'>{appState?.gameState?.gameManager.rewardMods[0]?.toString()}</div>
+        {rewards.length && renderReward(rewards[0])}
         <div>OR</div>
-        <div className='reward'>{appState?.gameState?.gameManager.rewardMods[1]}</div>
+        {rewards.length && renderReward(rewards[1])}
       </div>
     </div>
   );

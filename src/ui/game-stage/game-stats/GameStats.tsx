@@ -16,28 +16,28 @@ export const GameStats: React.FC<GameStatsProps> = observer(({ appState }) => {
       <div className='main-frame box column center'>
         <div className='score column center'>
           <div>SCORE</div>
-          <div className='box score-box row center'>{appState?.gameState?.gameManager.score}</div>
+          <div className='box score-box row center'>{appState.gameState.gameManager.score}</div>
         </div>
 
         <div className='level-combo-frame center'>
           <div className='level column center'>
             <div>LEVEL</div>
             <div className='box level-box row center'>
-              {appState?.gameState?.gameManager.currentStage}
+              {appState.gameState.gameManager.currentStage}
             </div>
           </div>
 
           <div className='combo column center'>
             <div>COMBO</div>
             <div className='box combo-box row center'>
-              {appState?.gameState?.gameManager.comboBrickCount}
+              {appState.gameState.gameManager.comboBrickCount}
             </div>
           </div>
 
           <div className='lives column center'>
             <div>BALLS</div>
             <div className='lives-box box row center'>
-              {appState?.gameState?.gameManager.ballsRemaining}
+              {appState.gameState.gameManager.ballsRemaining}
             </div>
           </div>
         </div>
