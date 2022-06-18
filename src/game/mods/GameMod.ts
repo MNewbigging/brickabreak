@@ -5,4 +5,5 @@
 export enum GameMod {
   PADDLE_WIDTH_INCREASE = 'paddle-width-increase',
   PADDLE_SPEED_INCREASE = 'paddle-speed-increase',
+  EXTRA_BALLS = 'extra-balls',
 }

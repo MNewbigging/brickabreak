@@ -78,6 +78,9 @@ export class GameManager {
       case GameMod.PADDLE_WIDTH_INCREASE:
         this.paddleWidthScale += 0.5;
         break;
+      case GameMod.EXTRA_BALLS:
+        this.ballsRemaining += 3;
+        break;
     }
 
     // Can now start the next stage
