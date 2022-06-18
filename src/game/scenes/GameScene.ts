@@ -8,7 +8,6 @@ import { Vec2 } from '../utils/Vec2';
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 type BrickGroup = Phaser.Physics.Arcade.StaticGroup;
 type Line = Phaser.GameObjects.Line;
-type Key = Phaser.Input.Keyboard.Key;
 
 export class GameScene extends Phaser.Scene {
   private gameSize: Vec2;
@@ -82,8 +81,8 @@ export class GameScene extends Phaser.Scene {
     // Get the bricks to create for this stage
     const bricks: Brick[][] = BrickLayer.layBricks();
 
-    const brickWidth = 20;
-    const brickHeight = 16;
+    const brickWidth = 40;
+    const brickHeight = 32;
 
     // Center values
     const rowLength = bricks[0].length;
@@ -238,21 +237,6 @@ export class GameScene extends Phaser.Scene {
   };
 
   private onHitPaddle = () => {
-    // let diff = 0;
-    // if (this.ball.x < this.paddle.x) {
-    //   //  Ball is on the left-hand side of the paddle
-    //   diff = this.paddle.x - this.ball.x;
-    //   this.ball.setVelocityX(-10 * diff);
-    // } else if (this.ball.x > this.paddle.x) {
-    //   //  Ball is on the right-hand side of the paddle
-    //   diff = this.ball.x - this.paddle.x;
-    //   this.ball.setVelocityX(10 * diff);
-    // } else {
-    //   //  Ball is perfectly in the middle
-    //   //  Add a little random X to stop it bouncing straight up!
-    //   this.ball.setVelocityX(2 + Math.random() * 8);
-    // }
-
     // Angle the ball more to edges of paddle
     let offset = this.ball.x - this.paddle.x;
     // If ball hit paddle dead center
