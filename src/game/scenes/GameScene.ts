@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
-import { Brick, BrickLayer } from '../utils/BrickLayer';
+import { Brick, BrickName } from '../bricks/Brick';
+import { BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { GameManager } from '../GameManager';
 import { Vec2 } from '../utils/Vec2';
@@ -8,10 +9,13 @@ import { Vec2 } from '../utils/Vec2';
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
 type BrickGroup = Phaser.Physics.Arcade.StaticGroup;
 type Line = Phaser.GameObjects.Line;
+type Image = Phaser.GameObjects.Image;
 
 export class GameScene extends Phaser.Scene {
   private gameSize: Vec2;
-  private bricks: BrickGroup;
+  private bricks = new Map<string, Brick>();
+  private brickBodies: BrickGroup;
+  private cracks = new Map<string, Image>();
   private ballOnPaddle = true;
   private ball: Body;
   private paddle: Body;
@@ -35,7 +39,7 @@ export class GameScene extends Phaser.Scene {
     this.physics.world.setBoundsCollision(true, true, true, false);
 
     // Bricks
-    this.bricks = this.physics.add.staticGroup();
+    this.brickBodies = this.physics.add.staticGroup();
     this.onStageStart();
 
     // Ball
@@ -53,7 +57,7 @@ export class GameScene extends Phaser.Scene {
     this.aimLine = this.add.line(0, 0, 0, -20, 0, -50, 0xffffff).setOrigin(0);
 
     // Colliders
-    this.physics.add.collider(this.ball, this.bricks, this.onHitBrick);
+    this.physics.add.collider(this.ball, this.brickBodies, this.onHitBrick);
     this.physics.add.collider(this.ball, this.paddle, this.onHitPaddle);
 
     // Input
@@ -73,10 +77,10 @@ export class GameScene extends Phaser.Scene {
   }
 
   public onStageStart = () => {
-    // Quick brick
-    // const center = this.getGameCenter();
-    // this.bricks.create(center.x, center.y, 'bricks', 'brick-red');
-    // return;
+    // Clear any previous brick data
+    this.bricks.clear();
+    this.brickBodies.clear();
+    this.cracks.clear();
 
     // Get the bricks to create for this stage
     const bricks: Brick[][] = BrickLayer.layBricks();
@@ -91,10 +95,24 @@ export class GameScene extends Phaser.Scene {
 
     // Create bricks
     bricks.forEach((row, rIdx) => {
+      // Brick y pos
       const y = minY + rIdx * brickHeight;
       row.forEach((brick, bIdx) => {
+        // Brick x pos
         const x = minX + bIdx * brickWidth;
-        this.bricks.create(x, y, 'bricks', brick);
+
+        // Create the brick physics object
+        const b = this.physics.add.staticImage(x, y, 'bricks', brick.name);
+        b.setData('id', brick.id);
+        this.brickBodies.add(b);
+
+        // Add brick to map
+        this.bricks.set(brick.id, brick);
+
+        // Create the crack image for it
+        const crack = this.add.image(x, y, '');
+        crack.visible = false;
+        this.cracks.set(brick.id, crack);
       });
     });
   };
@@ -201,12 +219,36 @@ export class GameScene extends Phaser.Scene {
     this.aimLine.rotation = 0;
   }
 
-  private onHitBrick = (ball: Body, brick: Body) => {
+  private onHitBrick = (_ball: Body, brickBody: Body) => {
+    // Get the id of brick hit
+    const id = brickBody.getData('id');
+    console.log('brick id', id);
+
+    // Get the brick
+    const brick = this.bricks.get(id);
+
     // Damage the brick
-    this.damageBrick(ball, brick);
+    brick.takeHit();
+
+    // Get the crack image for the brick
+    const crack = this.cracks.get(id);
+
+    // Has the brick been destroyed?
+    if (brick.hitsLeft < 0) {
+      // Remove the brick body
+      brickBody.disableBody(true, true);
+      // Remove the crack image
+      crack.destroy();
+      // Fire destroyed brick event
+      this.eventListener.fireEvent({ type: GameEventType.BRICK_DESTROYED });
+    } else {
+      // Brick was just damaged; show next crack image
+      crack.setTexture('cracksheet', `crack-${brick.hitsLeft}`);
+      crack.visible = true;
+    }
 
     // Was this the last brick in the stage?
-    if (this.bricks.countActive() === 0) {
+    if (this.brickBodies.countActive() === 0) {
       this.onBricksCleared();
       return;
     }
@@ -218,14 +260,6 @@ export class GameScene extends Phaser.Scene {
     // Apply the new speed by scaling against normalised velocity
     this.ball.body.velocity.normalize().scale(newSpeed);
   };
-
-  private damageBrick(_ball: Body, brick: Body) {
-    // TODO - damage model, just removing for now
-    brick.disableBody(true, true);
-
-    // Fire destroyed brick event
-    this.eventListener.fireEvent({ type: GameEventType.BRICK_DESTROYED });
-  }
 
   private onBricksCleared = () => {
     // Reset ball and paddle for next stage

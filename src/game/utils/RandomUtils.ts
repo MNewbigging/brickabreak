@@ -1,5 +1,5 @@
 export class RandomUtils {
-  public static createId(length: number = 4) {
+  public static createId(length: number = 6) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV0123456789';
 
     let id = '';

@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 import blueboard from '/assets/blueboard.png';
 import brickAtlas from '/assets/brickAtlas.png';
 import brickAtlasJson from '/assets/brickAtlas.json';
+import cracksheet from '/assets/cracksheet.png';
+import cracksheetJson from '/assets/cracksheet.json';
 import evilball from '/assets/evilball.png';
-import whitebrick from '/assets/whitebrick.png';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { Vec2 } from '../utils/Vec2';
@@ -31,8 +32,8 @@ export class BootScene extends Phaser.Scene {
 
     this.load.image('paddle', blueboard);
     this.load.image('ball', evilball);
-    this.load.image('brick', whitebrick);
     this.load.atlas('bricks', brickAtlas, brickAtlasJson);
+    this.load.atlas('cracksheet', cracksheet, cracksheetJson);
 
     this.load.start();
   }
