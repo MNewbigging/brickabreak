@@ -6,4 +6,7 @@ export enum GameMod {
   PADDLE_WIDTH_INCREASE = 'paddle-width-increase',
   PADDLE_SPEED_INCREASE = 'paddle-speed-increase',
   EXTRA_BALLS = 'extra-balls',
+  EXPOSIVE_BRICK_CHANCE = 'explosive-brick-chance',
 }
+
+export type BrickMod = GameMod.EXPOSIVE_BRICK_CHANCE;

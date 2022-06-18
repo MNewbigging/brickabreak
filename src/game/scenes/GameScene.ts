@@ -90,6 +90,7 @@ export class GameScene extends Phaser.Scene {
     // Clear any previous brick data
     this.bricks.clear();
     this.brickBodies.clear();
+    this.cracks.forEach((img: Image) => img.destroy());
     this.cracks.clear();
 
     // Get the bricks to create for this stage

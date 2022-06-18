@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+import { BrickMod } from '../mods/GameMod';
 import { RandomUtils } from '../utils/RandomUtils';
 
 export enum BrickName {
@@ -30,9 +31,8 @@ export enum BrickName {
 
 export class Brick {
   public id = RandomUtils.createId();
-
   public hitsLeft = 0;
-  public crackImage: Phaser.GameObjects.Image;
+  public mod?: BrickMod;
 
   constructor(public name: BrickName) {}
 

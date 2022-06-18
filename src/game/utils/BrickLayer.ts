@@ -1,4 +1,5 @@
 import { Brick, BrickName } from '../bricks/Brick';
+import { GameMod } from '../mods/GameMod';
 
 // Responsible for determining which bricks to spawn, then spawning them
 export class BrickLayer {
@@ -42,7 +43,8 @@ export class BrickLayer {
   public static oneBrick(): Brick[][] {
     const grid: Brick[][] = [];
 
-    const brick = new Brick(BrickName.BLUE);
+    const brick = new Brick(BrickName.GOLD);
+    brick.mod = GameMod.EXPOSIVE_BRICK_CHANCE;
 
     grid.push([brick]);
 
