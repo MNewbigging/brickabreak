@@ -11,6 +11,8 @@ export class GameManager {
   public comboBrickCount = 0;
   public score = 0;
   public paddleSpeed = 300;
+  // Speed added to ball when it hits a brick
+  public ballSpeedMod = 10;
 
   constructor(private eventListener: GameEventListener) {
     makeObservable(this, {

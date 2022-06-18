@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { Brick, BrickName } from '../bricks/Brick';
+import { Brick } from '../bricks/Brick';
 import { BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { GameManager } from '../GameManager';
@@ -222,7 +222,6 @@ export class GameScene extends Phaser.Scene {
   private onHitBrick = (_ball: Body, brickBody: Body) => {
     // Get the id of brick hit
     const id = brickBody.getData('id');
-    console.log('brick id', id);
 
     // Get the brick
     const brick = this.bricks.get(id);
@@ -256,7 +255,7 @@ export class GameScene extends Phaser.Scene {
     // Increase speed of ball - get current speed
     const curSpeed = this.ball.body.velocity.length();
     // The new speed is slightly faster than the current speed
-    const newSpeed = curSpeed * 1.1;
+    const newSpeed = curSpeed + this.gameManager.ballSpeedMod;
     // Apply the new speed by scaling against normalised velocity
     this.ball.body.velocity.normalize().scale(newSpeed);
   };
