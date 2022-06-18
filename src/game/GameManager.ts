@@ -9,7 +9,7 @@ import { GameMod } from './mods/GameMod';
 export class GameManager {
   // Game stats
   public currentStage = 1;
-  public ballsRemaining = 10;
+  public ballsRemaining = 1;
   public comboBrickCount = 0;
   public score = 0;
   public activeMods: GameMod[] = [];
@@ -31,13 +31,28 @@ export class GameManager {
       onHitBrick: action,
       onBallLost: action,
       onStageEnd: action,
+      onGameStart: action,
     });
 
+    eventListener.on(GameEventType.GAME_START, this.onGameStart);
     eventListener.on(GameEventType.STAGE_START, this.onStageStart);
     eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
     eventListener.on(GameEventType.BALL_LOST, this.onBallLost);
     eventListener.on(GameEventType.BRICK_DESTROYED, this.onHitBrick);
   }
+
+  public onGameStart = () => {
+    // Reset values
+    this.currentStage = 1;
+    this.ballsRemaining = 1;
+    this.comboBrickCount = 0;
+    this.score = 0;
+    this.activeMods = [];
+    this.paddleSpeed = 300;
+    this.paddleWidthScale = 1;
+    this.ballSpeedMod = 10;
+    this.rewardMods = [];
+  };
 
   public onStageStart = () => {
     // Increase stage count

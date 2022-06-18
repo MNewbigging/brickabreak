@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = observer(({ text, onClick, disabled
 
   return (
     <div className={buttonClasses.join(' ')} onClick={onClick}>
-      <div className='button-inner'>{text}</div>
+      <div className='button-inner row center'>{text}</div>
     </div>
   );
 });

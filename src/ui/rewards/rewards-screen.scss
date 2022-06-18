@@ -10,21 +10,8 @@
   height: 100%;
   padding: 20px;
 
-  border: 15px solid $borderDark;
-  background-color: $bluePrimary;
-
-  transition: all 0.3s ease-in-out;
-
   justify-content: space-around;
   gap: 10px;
-
-  &.open {
-    transform: scale(1);
-  }
-
-  &.closed {
-    transform: scale(0);
-  }
 
   .reward-cards {
     flex: 0 0 50%;

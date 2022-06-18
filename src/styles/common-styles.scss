@@ -18,3 +18,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.dialog {
+  border: 15px solid $borderDark;
+  background-color: $bluePrimary;
+
+  transition: all 0.3s ease-in-out;
+
+  &.open {
+    transform: scale(1);
+  }
+
+  &.closed {
+    transform: scale(0);
+  }
+}

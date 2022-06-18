@@ -95,7 +95,7 @@ export class GameScene extends Phaser.Scene {
     this.cracks.clear();
 
     // Get the bricks to create for this stage
-    const bricks: Brick[][] = BrickLayer.explosiveBrickTest();
+    const bricks: Brick[][] = BrickLayer.oneBrick();
 
     const brickWidth = 40;
     const brickHeight = 32;

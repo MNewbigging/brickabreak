@@ -12,6 +12,7 @@ export class AppState {
   public loading = true;
   public gameStarted = false;
   public rewardsState = ScreenState.CLOSED;
+  public gameOverState = ScreenState.CLOSED;
   public gameState: GameState;
   public eventListener = new GameEventListener();
 
@@ -28,6 +29,8 @@ export class AppState {
       onStageEnd: action,
       onStageStart: action,
       gameState: observable,
+      gameOverState: observable,
+      onGameOver: action,
     });
 
     // Allow UI to mount
@@ -37,6 +40,7 @@ export class AppState {
   public setupGame() {
     // Register for any game events
     this.eventListener.on(GameEventType.GAME_LOADED, this.onGameLoaded);
+    this.eventListener.on(GameEventType.GAME_OVER, this.onGameOver);
     this.eventListener.on(GameEventType.STAGE_START, this.onStageStart);
     this.eventListener.on(GameEventType.STAGE_END, this.onStageEnd);
 
@@ -63,5 +67,17 @@ export class AppState {
   public onStageEnd = () => {
     // Show rewards screen
     this.rewardsState = ScreenState.OPEN;
+  };
+
+  public onGameOver = () => {
+    this.gameOverState = ScreenState.OPEN;
+  };
+
+  public replayGame = () => {
+    // Hide game over screen
+    this.gameOverState = ScreenState.CLOSED;
+
+    // Restart
+    this.startGame();
   };
 }

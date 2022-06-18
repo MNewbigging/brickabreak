@@ -23,7 +23,7 @@ export const RewardsScreen: React.FC<RewardsScreenProps> = observer(({ appState 
   };
 
   return (
-    <div className={`rewards-screen ${appState.rewardsState} column center`}>
+    <div className={`rewards-screen dialog ${appState.rewardsState} column center`}>
       <div>Good Job!</div>
       <div>Choose one</div>
       <div className='reward-cards row center'>
