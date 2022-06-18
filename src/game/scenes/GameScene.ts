@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { Brick } from '../bricks/Brick';
+import { Brick, BrickName } from '../bricks/Brick';
 import { BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { GameManager } from '../GameManager';
@@ -85,7 +85,7 @@ export class GameScene extends Phaser.Scene {
     this.cracks.clear();
 
     // Get the bricks to create for this stage
-    const bricks: Brick[][] = BrickLayer.layBricks();
+    const bricks: Brick[][] = BrickLayer.oneBrick();
 
     const brickWidth = 40;
     const brickHeight = 32;

@@ -54,6 +54,8 @@ export class AppState {
   };
 
   public onStageEnd = () => {
+    // Get the rewards to show
+
     // Show rewards screen
     this.rewardsState = ScreenState.OPEN;
   };

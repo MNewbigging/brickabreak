@@ -38,6 +38,16 @@ export class BrickLayer {
     // return the brick grid
     return grid;
   }
+
+  public static oneBrick(): Brick[][] {
+    const grid: Brick[][] = [];
+
+    const brick = new Brick(BrickName.BLUE);
+
+    grid.push([brick]);
+
+    return grid;
+  }
 }
 
 /**

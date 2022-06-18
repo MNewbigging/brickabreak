@@ -15,9 +15,9 @@ export const RewardsScreen: React.FC<RewardsScreenProps> = observer(({ appState 
       <div>Good Job!</div>
       <div>Choose one</div>
       <div className='reward-cards row center'>
-        <div className='reward'>A</div>
+        <div className='reward'>{appState?.gameState?.gameManager.rewardMods[0]?.toString()}</div>
         <div>OR</div>
-        <div className='reward'>B</div>
+        <div className='reward'>{appState?.gameState?.gameManager.rewardMods[1]}</div>
       </div>
     </div>
   );
