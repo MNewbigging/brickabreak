@@ -29,7 +29,8 @@ export class GameState {
         parent: 'game-mount',
         mode: Phaser.Scale.RESIZE,
       },
-      backgroundColor: '#323C39',
+      transparent: true,
+      //backgroundColor: '#323C39',
       scene: [bootScene, this.mainScene],
       physics: {
         default: 'arcade',
