@@ -18,6 +18,7 @@ export class GameScene extends Phaser.Scene {
   private cracks = new Map<string, Image>();
   private ballOnPaddle = true;
   private ball: Body;
+  private ballPaddleOffset = -30;
   private paddle: Body;
   private paddleHalfWidth = 0;
   private aimLine: Line;
@@ -124,7 +125,7 @@ export class GameScene extends Phaser.Scene {
     // Update ball position if attached to paddle
     if (this.ballOnPaddle) {
       this.ball.x = this.paddle.x;
-      this.ball.y = this.paddle.y - 50;
+      this.ball.y = this.paddle.y + this.ballPaddleOffset;
 
       // Also update the line pos
       this.updateAimLine();
