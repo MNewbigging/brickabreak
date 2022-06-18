@@ -20,8 +20,6 @@ export class GameScene extends Phaser.Scene {
   private aimLine: Line;
   private baseBallSpeed = 300;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private keyA: Key;
-  private keyD: Key;
   private paddleTargetPos = 0;
 
   constructor(private eventListener: GameEventListener, private gameManager: GameManager) {
@@ -61,18 +59,8 @@ export class GameScene extends Phaser.Scene {
 
     // Input
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-    const paddleHalfWidth = this.paddle.width / 2;
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-      // Keep paddle in bounds
-      // this.paddle.x = Phaser.Math.Clamp(
-      //   pointer.x,
-      //   paddleHalfWidth,
-      //   this.gameSize.x - paddleHalfWidth
-      // );
-
       // Save the pointer pos as target for paddle to move towards
       this.paddleTargetPos = pointer.x;
     });
@@ -86,23 +74,6 @@ export class GameScene extends Phaser.Scene {
   }
 
   public onStageStart = () => {
-    // // Create bricks
-    // this.bricks = this.physics.add.staticGroup({
-    //   key: 'bricks',
-    //   frame: ['brick-red', 'brick-pink', 'brick-purple', 'brick-algae', 'brick-lime', 'brick-blue'],
-    //   frameQuantity: 10,
-    //   gridAlign: {
-    //     width: 10,
-    //     height: 6,
-    //     //position: Phaser.Display.Align.CENTER,
-    //     cellWidth: 64,
-    //     cellHeight: 32,
-    //     x: 100,
-    //     y: 100,
-    //   },
-    // });
-    // this.bricks.scaleXY(1, 1);
-
     // Quick brick
     // const center = this.getGameCenter();
     // this.bricks.create(center.x, center.y, 'bricks', 'brick-red');
@@ -143,7 +114,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     // Otherwise check if ball is out of lower bounds
-    if (this.ball.y > this.gameSize.y + 100) {
+    if (this.ball.y > this.gameSize.y + this.ball.height) {
       // Fire ball lost event
       this.eventListener.fireEvent({ type: GameEventType.BALL_LOST });
       // Reset ball
@@ -152,31 +123,10 @@ export class GameScene extends Phaser.Scene {
   }
 
   private updatePaddle(dt: number) {
-    // if (this.keyA.isDown) {
-    //   // Move left
-    //   this.paddle.x -= dt * this.gameManager.paddleSpeed;
-    // } else if (this.keyD.isDown) {
-    //   // Move right
-    //   this.paddle.x += dt * this.gameManager.paddleSpeed;
-    // }
-
     // Normalized different between current and target pos
     const offset = this.paddleTargetPos - this.paddle.x;
     const margin = this.gameManager.paddleSpeed / 20;
     let diff = Math.abs(offset) < margin ? 0 : Math.sign(offset);
-
-    /**
-     * if exactly at left edge:
-     * - cannot go left more (diff can only be 0 or 1)
-     * if less than left edge:
-     * - reset to left edge, diff is 0
-     * if at right edge:
-     * - cannot go right more (diff can only be 0 or -1)
-     * if more than right edge:
-     * - reset to right edge, diff is 0
-     *
-     * if p.x - phw is negative
-     */
 
     const rightEdge = this.gameSize.x - this.paddleHalfWidth;
 
@@ -288,7 +238,6 @@ export class GameScene extends Phaser.Scene {
   };
 
   private onHitPaddle = () => {
-    // Some basic, but not great, reflecting angle logic for the paddle
     // let diff = 0;
     // if (this.ball.x < this.paddle.x) {
     //   //  Ball is on the left-hand side of the paddle
@@ -303,6 +252,27 @@ export class GameScene extends Phaser.Scene {
     //   //  Add a little random X to stop it bouncing straight up!
     //   this.ball.setVelocityX(2 + Math.random() * 8);
     // }
+
+    // Angle the ball more to edges of paddle
+    let offset = this.ball.x - this.paddle.x;
+    // If ball hit paddle dead center
+    if (offset === 0) {
+      offset = Math.random() * 10;
+    }
+
+    // Maintain current speed after collision
+    const curSpeed = this.ball.body.velocity.length();
+
+    // Set the rebound angle
+    this.ball.setVelocityX(offset * 5);
+
+    // Scale by current speed
+    this.ball.body.velocity.normalize().scale(curSpeed);
+
+    // In case paddle squashes ball against side, make sure ball still moves
+    if (this.ball.body.velocity.y > 0 && this.ball.body.velocity.y < 1) {
+      this.ball.setVelocityY(curSpeed);
+    }
   };
 
   private getGameSize(): Vec2 {
