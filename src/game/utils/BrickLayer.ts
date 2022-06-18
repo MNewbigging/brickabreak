@@ -1,5 +1,5 @@
 import { Brick, BrickName } from '../bricks/Brick';
-import { GameMod } from '../mods/GameMod';
+import { BrickMod, GameMod } from '../mods/GameMod';
 
 // Responsible for determining which bricks to spawn, then spawning them
 export class BrickLayer {
@@ -11,14 +11,37 @@ export class BrickLayer {
     const rows = 10;
     const rowBricks = 5;
 
+    return BrickLayer.makeBrickWall(rows, rowBricks);
+  }
+
+  public static oneBrick(): Brick[][] {
     const grid: Brick[][] = [];
+
+    const brick = new Brick(BrickName.GOLD);
+
+    grid.push([brick]);
+
+    return grid;
+  }
+
+  public static explosiveBrickTest(): Brick[][] {
+    const grid = this.makeBrickWall(5, 5);
+
+    grid[4][2].onDestroyMod = BrickMod.EXPLOSIVE;
+    grid[4][2].hitsLeft = 0;
+
+    return grid;
+  }
+
+  public static makeBrickWall(rows: number, rowLength: number) {
+    const wall: Brick[][] = [];
 
     for (let r = 0; r < rows; r++) {
       // Create a new row
       const row: Brick[] = [];
 
       // Fill out the row with bricks
-      for (let rb = 0; rb < rowBricks; rb++) {
+      for (let rb = 0; rb < rowLength; rb++) {
         // Pick a random brick name
         const rnd = Math.floor(Math.random() * this.allBrickNames.length);
         const brickName = this.allBrickNames[rnd];
@@ -33,22 +56,11 @@ export class BrickLayer {
         row.push(brick);
       }
       // Push row into grid
-      grid.push(row);
+      wall.push(row);
     }
 
     // return the brick grid
-    return grid;
-  }
-
-  public static oneBrick(): Brick[][] {
-    const grid: Brick[][] = [];
-
-    const brick = new Brick(BrickName.GOLD);
-    brick.mod = GameMod.EXPOSIVE_BRICK_CHANCE;
-
-    grid.push([brick]);
-
-    return grid;
+    return wall;
   }
 }
 

@@ -9,4 +9,6 @@ export enum GameMod {
   EXPOSIVE_BRICK_CHANCE = 'explosive-brick-chance',
 }
 
-export type BrickMod = GameMod.EXPOSIVE_BRICK_CHANCE;
+export enum BrickMod {
+  EXPLOSIVE = 'brick-explosive',
+}

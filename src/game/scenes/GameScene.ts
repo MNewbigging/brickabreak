@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import { Brick, BrickName } from '../bricks/Brick';
 import { BrickLayer } from '../utils/BrickLayer';
+import { BrickMod } from '../mods/GameMod';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { GameManager } from '../GameManager';
 import { RandomUtils } from '../utils/RandomUtils';
@@ -94,7 +95,7 @@ export class GameScene extends Phaser.Scene {
     this.cracks.clear();
 
     // Get the bricks to create for this stage
-    const bricks: Brick[][] = BrickLayer.oneBrick();
+    const bricks: Brick[][] = BrickLayer.explosiveBrickTest();
 
     const brickWidth = 40;
     const brickHeight = 32;
@@ -249,6 +250,8 @@ export class GameScene extends Phaser.Scene {
       brickBody.disableBody(true, true);
       // Remove the crack image
       crack.destroy();
+      // Do brick's on destroy effect, if any
+      this.activateBrickDestroyMod(brick);
       // Fire destroyed brick event
       this.eventListener.fireEvent({ type: GameEventType.BRICK_DESTROYED });
     } else {
@@ -270,6 +273,20 @@ export class GameScene extends Phaser.Scene {
     // Apply the new speed by scaling against normalised velocity
     this.ball.body.velocity.normalize().scale(newSpeed);
   };
+
+  private activateBrickDestroyMod(brick: Brick) {
+    if (!brick.onDestroyMod) {
+      return;
+    }
+
+    switch (brick.onDestroyMod) {
+      case BrickMod.EXPLOSIVE:
+        // Blows up neighbouring bricks, or damages bricks in a radius?
+        break;
+    }
+
+    console.log('brick destroy mod', brick.onDestroyMod);
+  }
 
   private onBricksCleared = () => {
     // Reset ball and paddle for next stage

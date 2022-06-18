@@ -32,7 +32,7 @@ export enum BrickName {
 export class Brick {
   public id = RandomUtils.createId();
   public hitsLeft = 0;
-  public mod?: BrickMod;
+  public onDestroyMod?: BrickMod;
 
   constructor(public name: BrickName) {}
 
