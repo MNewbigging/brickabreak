@@ -7,7 +7,7 @@ import { GameEventListener, GameEventType } from './listeners/GameEventListener'
  */
 export class GameManager {
   public currentStage = 1;
-  public ballsRemaining = 3;
+  public ballsRemaining = 10;
   public comboBrickCount = 0;
   public score = 0;
   public paddleSpeed = 300;

@@ -4,6 +4,7 @@ import { Brick } from '../bricks/Brick';
 import { BrickLayer } from '../utils/BrickLayer';
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { GameManager } from '../GameManager';
+import { RandomUtils } from '../utils/RandomUtils';
 import { Vec2 } from '../utils/Vec2';
 
 type Body = Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -120,7 +121,7 @@ export class GameScene extends Phaser.Scene {
 
   public update(time: number, delta: number): void {
     // Update paddle
-    this.updatePaddle(delta);
+    this.updatePaddle();
 
     // Update ball position if attached to paddle
     if (this.ballOnPaddle) {
@@ -140,7 +141,7 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
-  private updatePaddle(dt: number) {
+  private updatePaddle() {
     // Normalized different between current and target pos
     const offset = this.paddleTargetPos - this.paddle.x;
     const margin = this.gameManager.paddleSpeed / 20;
@@ -275,7 +276,7 @@ export class GameScene extends Phaser.Scene {
     let offset = this.ball.x - this.paddle.x;
     // If ball hit paddle dead center
     if (offset === 0) {
-      offset = Math.random() * 10;
+      offset = RandomUtils.randomRange(-10, 10);
     }
 
     // Maintain current speed after collision

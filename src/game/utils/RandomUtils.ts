@@ -10,4 +10,8 @@ export class RandomUtils {
 
     return id;
   }
+
+  public static randomRange(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 }

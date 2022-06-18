@@ -20,6 +20,12 @@ export enum BrickName {
   YELLOW_SUN = 'brick-sunyellow',
   ORANGE = 'brick-orange',
   ORANGE_DARK = 'brick-dorange',
+  WOOD = 'brick-wood',
+  COPPER = 'brick-copper',
+  IRON = 'brick-iron',
+  STONE = 'brick-stone',
+  DIAMON = 'brick-diamond',
+  GLASS = 'brick-glass',
 }
 
 export class Brick {

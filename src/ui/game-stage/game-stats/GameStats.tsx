@@ -2,6 +2,7 @@ import './game-stats.scss';
 
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+
 import { AppState } from '../../../AppState';
 
 interface GameStatsProps {
@@ -34,7 +35,7 @@ export const GameStats: React.FC<GameStatsProps> = observer(({ appState }) => {
           </div>
 
           <div className='lives column center'>
-            <div>LIVES</div>
+            <div>BALLS</div>
             <div className='lives-box box row center'>
               {appState?.gameState?.gameManager.ballsRemaining}
             </div>
