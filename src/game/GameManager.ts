@@ -88,10 +88,10 @@ export class GameManager {
     // Apply mod effect
     switch (rewardMod) {
       case GameMod.PADDLE_SPEED_INCREASE:
-        this.paddleSpeed += 100;
+        this.paddleSpeed += 50;
         break;
       case GameMod.PADDLE_WIDTH_INCREASE:
-        this.paddleWidthScale += 0.5;
+        this.paddleWidthScale += 0.1;
         break;
       case GameMod.EXTRA_BALLS:
         this.ballsRemaining += 3;

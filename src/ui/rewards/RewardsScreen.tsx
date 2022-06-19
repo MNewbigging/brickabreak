@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import { AppState } from '../../AppState';
 import { GameMod } from '../../game/mods/GameMod';
+import { RewardRenderer } from './RewardRenderer';
 
 interface RewardsScreenProps {
   appState: AppState;
@@ -17,7 +18,7 @@ export const RewardsScreen: React.FC<RewardsScreenProps> = observer(({ appState 
   const renderReward = (rewardMod: GameMod) => {
     return (
       <div className='reward' onClick={() => gm.chooseReward(rewardMod)}>
-        {rewardMod.toString()}
+        {RewardRenderer.getRewardImage(rewardMod)}
       </div>
     );
   };
