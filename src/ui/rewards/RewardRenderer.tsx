@@ -25,6 +25,6 @@ export class RewardRenderer {
       return <div>{rewardMod.toString()}</div>;
     }
 
-    return <img src={image}></img>;
+    return <img src={image} className='reward-image'></img>;
   }
 }

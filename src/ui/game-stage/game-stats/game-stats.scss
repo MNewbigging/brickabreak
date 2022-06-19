@@ -10,9 +10,9 @@ $boxHeight: 45px;
   }
 
   .main-frame {
-    flex: 1 1 300px;
+    flex: 1 1 auto;
     width: 100%;
-
+    padding: 10px 0px;
     gap: 10px;
 
     .score {
@@ -63,7 +63,20 @@ $boxHeight: 45px;
 
       .powerups-box {
         width: 90%;
+        height: calc($boxHeight * 3);
+        flex-wrap: wrap;
+      }
+
+      .active-mod {
+        position: relative;
         height: $boxHeight;
+
+        .active-mod-count {
+          position: absolute;
+          right: 0px;
+          bottom: -6px;
+          font-size: 16px;
+        }
       }
     }
   }

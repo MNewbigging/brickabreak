@@ -81,6 +81,24 @@ export class GameManager {
     this.comboBrickCount = 0;
   };
 
+  public getActiveModCounts() {
+    // Get each unique mod and its count in active mods
+    const modCountList: { mod: GameMod; count: number }[] = [];
+
+    this.activeMods.forEach((mod) => {
+      // Already in list?
+      const listItem = modCountList.find((li) => li.mod === mod);
+      if (listItem) {
+        listItem.count++;
+      } else {
+        // Add to list
+        modCountList.push({ mod, count: 1 });
+      }
+    });
+
+    return modCountList;
+  }
+
   public chooseReward(rewardMod: GameMod) {
     // Add reward as active
     this.activeMods.push(rewardMod);
