@@ -5,6 +5,7 @@ import brickAtlas from '/assets/brickAtlas.png';
 import brickAtlasJson from '/assets/brickAtlas.json';
 import cracksheet from '/assets/cracksheet.png';
 import cracksheetJson from '/assets/cracksheet.json';
+import explosiveBrick from '/assets/explosive_brick.png';
 
 import { GameEventListener, GameEventType } from '../listeners/GameEventListener';
 import { Vec2 } from '../utils/Vec2';
@@ -34,6 +35,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('ball', ball);
     this.load.atlas('bricks', brickAtlas, brickAtlasJson);
     this.load.atlas('cracksheet', cracksheet, cracksheetJson);
+    this.load.spritesheet('explosive-brick', explosiveBrick, { frameWidth: 164, frameHeight: 120 });
 
     this.load.start();
   }

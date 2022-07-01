@@ -1,12 +1,3 @@
+- brick laying per stage
 
-
-- GameScene needs to know what bricks to load for that stage
--- some kind of game manager to track stages to know what to build for next stage
-
-Things to track:
-- current stage / total number of stages cleared (same thing - 1) 
-- balls remaining
-- paddle mods, ball mods, brick mods 
-- getRewards() - returns three reward choices (takes into account current modes and stage)
-- count of bricks hit with current ball
-
+- different mods and brick types

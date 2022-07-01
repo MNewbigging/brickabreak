@@ -95,7 +95,7 @@ export class GameScene extends Phaser.Scene {
     this.cracks.clear();
 
     // Get the bricks to create for this stage
-    const bricks: Brick[][] = BrickLayer.oneBrick();
+    const bricks: Brick[][] = BrickLayer.explosiveBrickTest();
 
     const brickWidth = 40;
     const brickHeight = 32;
@@ -114,11 +114,22 @@ export class GameScene extends Phaser.Scene {
         const x = minX + bIdx * brickWidth;
 
         // Create the brick physics object
-        const b = this.physics.add.staticImage(x, y, 'bricks', brick.name);
-        b.setData('id', brick.id);
-        this.brickBodies.add(b);
+        const b = this.physics.add.staticSprite(x, y, 'bricks', brick.name);
 
-        // Add brick to map
+        // Change texture if it's a special brick
+        if (brick.onDestroyMod) {
+          switch (brick.onDestroyMod) {
+            case BrickMod.EXPLOSIVE:
+              b.setTexture('explosive-brick');
+              break;
+          }
+        }
+
+        // Assign the id to brick
+        b.setData('id', brick.id);
+
+        // Add brick to brick bodies and map
+        this.brickBodies.add(b);
         this.bricks.set(brick.id, brick);
 
         // Create the crack image for it
